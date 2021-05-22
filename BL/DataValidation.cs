@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Windows.Controls;
 
 namespace BL
 {
 	public static partial class DataValidation
 	{
-		//TODO: phone validation
+		public static ValidationResult ValidatePhone(string phone)
+		{
+			if (new PhoneFormatConverter().IsPhoneValid(phone))
+				return ValidationResult.ValidResult;
+
+			return new ValidationResult(false, InvalidPhoneMessage);
+		}
 
 		public static ValidationResult ValidateName(string name)
 		{
@@ -42,6 +46,8 @@ namespace BL
 		private const string InvalidDateFormatMessage = "Неизвестный формат даты!";
 
 		private const string NonWorkingHourMessage = "В эти часы мастерская не работает!";
+
+		private const string InvalidPhoneMessage = "Неверный номер телефона";
 
 		private static bool IsNameValid(string input) => !string.IsNullOrWhiteSpace(input);
 	}

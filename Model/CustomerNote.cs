@@ -14,7 +14,9 @@ namespace Model
 
 		public CustomerNote(string name, string phone, DateTime date)
 		{
-
+			Name = name;
+			Phone = phone;
+			Date = date;
 		}
 
 		public override string ToString()
@@ -24,7 +26,10 @@ namespace Model
 
 		public override bool Equals(object obj)
 		{
-			return base.Equals(obj);
+			if (obj is CustomerNote customerNote)
+				Equals(customerNote);
+
+			return false;
 		}
 
 		public int CompareTo([AllowNull] CustomerNote other)
