@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Model.DataProviders
@@ -23,29 +22,66 @@ namespace Model.DataProviders
 			jsonSerializer = new DataContractJsonSerializer(typeof(CustomerNote));
 		}
 
-		public Task AddAsync(CustomerNote instance)
+		/// <summary>
+		/// Добавление объекта.
+		/// Вызывается перед этим <see cref="GetAllAsync"/>, если не был вызван ранее
+		/// </summary>
+		/// <param name="instance"></param>
+		/// <returns></returns>
+		public async Task AddAsync(CustomerNote instance)
 		{
-			throw new NotImplementedException();
+			if (notes is null)
+			{
+				await GetAllAsync();
+			}
+
+			notes.Add(instance);
 		}
 
-		public Task Delete(CustomerNote instance)
+		/// <summary>
+		/// Удаление объекта
+		/// Вызывается перед этим <see cref="GetAllAsync"/>, если не был вызван ранее
+		/// </summary>
+		/// <param name="instance"></param>
+		/// <returns></returns>
+		public async Task Delete(CustomerNote instance)
 		{
-			throw new NotImplementedException();
+			if (notes is null)
+			{
+				await GetAllAsync();
+			}
+
+			notes.Remove(instance);
 		}
 
-		public Task<IEnumerable<CustomerNote>> GetAllAsync()
+		/// <summary>
+		/// Выполняется инициализация копии хранилища и возвращается коллекция
+		/// </summary>
+		/// <returns></returns>
+		public async Task<IEnumerable<CustomerNote>> GetAllAsync()
 		{
-			throw new NotImplementedException();
+			if (notes is null)
+				notes = await Task.Run(() => ReadJson());
+
+			return notes;
 		}
 
+		/// <summary>
+		/// Выполняет получение элемента по идентификатору из локальной копии
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public CustomerNote GetById(string id)
 		{
-			throw new NotImplementedException();
+			if (notes is null)
+				return null;
+
+			return notes.SingleOrDefault(x => x.Phone.Equals(id));
 		}
 
-		public Task SaveAsync()
+		public async Task SaveAsync()
 		{
-			throw new NotImplementedException();
+			await Task.Run(() => WriteJson(notes));
 		}
 	}
 }
