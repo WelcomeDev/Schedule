@@ -21,7 +21,7 @@ namespace Model
 
 		public override string ToString()
 		{
-			return base.ToString();
+			return $"{Name}\t{Date:g}\t{Phone}";
 		}
 
 		public override bool Equals(object obj)
@@ -32,14 +32,17 @@ namespace Model
 			return false;
 		}
 
-		public int CompareTo([AllowNull] CustomerNote other)
+		public int CompareTo([NotNull] CustomerNote other)
 		{
-			throw new NotImplementedException();
+			return Date.CompareTo(other.Date);
 		}
 
 		public bool Equals([AllowNull] CustomerNote other)
 		{
-			throw new NotImplementedException();
+			if (other is null)
+				return false;
+
+			return Phone.Equals(other.Phone);
 		}
 	}
 }
