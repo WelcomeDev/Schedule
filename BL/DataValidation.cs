@@ -24,7 +24,7 @@ namespace BL
 
 		public static ValidationResult ValidateDate(string date)
 		{
-			var isParsed = DateTime.TryParseExact(date, "G",
+			var isParsed = DateTime.TryParseExact(date, "g",
 											CultureInfo.CurrentCulture,
 											DateTimeStyles.None,
 											out var dateTime);
