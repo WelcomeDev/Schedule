@@ -8,6 +8,8 @@ namespace Schedule.GUIs
 	/// </summary>
 	public partial class NoteItem : UserControl
 	{
+		public INoteDisplayedData NoteData { get; }
+
 		public NoteItem()
 		{
 			InitializeComponent();
@@ -15,7 +17,7 @@ namespace Schedule.GUIs
 
 		public NoteItem(INoteDisplayedData noteDisplayedData) : this()
 		{
-			DataContext = noteDisplayedData;
+			DataContext = NoteData = noteDisplayedData;
 		}
 	}
 }

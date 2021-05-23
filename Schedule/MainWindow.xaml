@@ -30,6 +30,7 @@
                          Text="17.27.2741-98.26.4647"/>
 
                 <ListView Grid.Row="1"
+                          x:Name="notesListView"
                           BorderThickness="0"
                           Margin="10,4,4,4"/>
 
