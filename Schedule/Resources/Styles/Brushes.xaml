@@ -28,10 +28,10 @@
 
     <Style x:Key="BaseControl" TargetType="Control">
         <Setter Property="Foreground" Value="{StaticResource MainFontBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ActiveBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource InactiveBorderBrush}"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Margin" Value="4"/>
         <Style.Triggers>

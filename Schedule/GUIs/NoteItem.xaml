@@ -5,8 +5,68 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Schedule.GUIs"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:Background="White"
+             d:DesignHeight="100" d:DesignWidth="400"
+             d:BorderBrush="{StaticResource InactiveBorderBrush}"
+             MaxHeight="100">
     <Grid>
-            
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Ellipse Width="40"
+                 Height="40"
+                 StrokeThickness="2"
+                 Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"
+                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <Border CornerRadius="5"
+                Margin="5,2,2,2"
+                Grid.Column="1"
+                BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"
+                BorderThickness="1"
+                Padding="4">
+            <!--"{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderThickness}"-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}" 
+                         Text="Имя: "/>
+                <TextBox Grid.Column="1" 
+                         Style="{StaticResource InputTextBox}" 
+                         BorderThickness="1" 
+                         Text="Jopa"/>
+
+                <TextBox Grid.Column="2"
+                         Style="{StaticResource ReadOnlyUnderlinedTextBox}"
+                         Text="Дата: "/>
+                <TextBox Grid.Column="3"
+                         Style="{StaticResource InputTextBox}"
+                         Text="18.54.3554"/>
+
+                <TextBox Grid.Row="1"
+                         Style="{StaticResource ReadOnlyUnderlinedTextBox}"
+                         Text="Телефон: "/>
+
+                <TextBox Grid.Column="1" Grid.Row="1"
+                         Grid.ColumnSpan="3"
+                         Style="{StaticResource InputTextBox}"
+                         Text="8(899)898-88-98"/>
+
+            </Grid>
+        </Border>
+
     </Grid>
 </UserControl>

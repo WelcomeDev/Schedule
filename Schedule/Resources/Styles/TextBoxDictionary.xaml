@@ -104,7 +104,7 @@
     </Style>
 
     <Style x:Key="ReadOnlyUnderlinedTextBox" TargetType="TextBox" BasedOn="{StaticResource UnderlinedTextBox}">
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Cursor" Value="Arrow"/>
