@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BL;
 using System.Globalization;
-using System.Text;
 using System.Windows.Controls;
 
 namespace Schedule.Validation
 {
 	public class DateValidation : ValidationRule
 	{
-		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-		{
-			throw new NotImplementedException();
-		}
+		public override ValidationResult Validate(object value, CultureInfo cultureInfo) 
+			=> DataValidation.ValidateDate(value as string);
 	}
 }

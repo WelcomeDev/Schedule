@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Schedule.GUIs"
              xmlns:context="clr-namespace:Controller.DataApis;assembly=Controller"
+             xmlns:val="clr-namespace:Schedule.Validation"
              d:DataContext="{d:DesignInstance Type=context:INoteDisplayedData}"
              mc:Ignorable="d" 
              d:Background="White"
@@ -50,15 +51,31 @@
                          Text="Имя: "/>
                 <TextBox Grid.Column="1" 
                          Style="{StaticResource InputTextBox}" 
-                         BorderThickness="1" 
-                         Text="{Binding Name, Mode=TwoWay}"/>
+                         BorderThickness="1" >
+                    <TextBox.Text>
+                        <Binding Path="Name" Mode="TwoWay" 
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <val:NameValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <TextBox Grid.Column="2"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"
                          Text="Дата: "/>
                 <TextBox Grid.Column="3"
-                         Style="{StaticResource InputTextBox}"
-                         Text="{Binding Date, Mode=TwoWay}"/>
+                         Style="{StaticResource InputTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Date" Mode="TwoWay"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <val:DateValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <TextBox Grid.Row="1"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"
@@ -66,8 +83,16 @@
 
                 <TextBox Grid.Column="1" Grid.Row="1"
                          Grid.ColumnSpan="3"
-                         Style="{StaticResource InputTextBox}"
-                         Text="{Binding Phone, Mode=TwoWay}"/>
+                         Style="{StaticResource InputTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Phone" Mode="TwoWay"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <val:PhoneValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
             </Grid>
         </Border>

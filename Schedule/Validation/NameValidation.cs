@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BL;
 using System.Globalization;
-using System.Text;
 using System.Windows.Controls;
 
 namespace Schedule.Validation
@@ -9,8 +7,6 @@ namespace Schedule.Validation
 	public class NameValidation : ValidationRule
 	{
 		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-		{
-			throw new NotImplementedException();
-		}
+			=> DataValidation.ValidateName(value as string);
 	}
 }
