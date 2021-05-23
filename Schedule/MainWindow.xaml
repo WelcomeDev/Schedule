@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Расписание" 
         MinHeight="600" MinWidth="1000">
-    <Grid>
+    <Grid Background="{StaticResource MainBackgroundBrush}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.35*"/>
@@ -24,7 +24,14 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBox/>
+                <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}"
+                         TextAlignment="Center"
+                         
+                         Text="17.27.2741-98.26.4647"/>
+
+                <ListView Grid.Row="1"
+                          BorderThickness="0"
+                          Margin="10,4,4,4"/>
 
             </Grid>
         </Border>

@@ -19,7 +19,7 @@
 
     <SolidColorBrush x:Key="InvalidDataBrush" Color="#e63946"/>
 
-    <SolidColorBrush x:Key="MainBackgroundBrush" Color="#5DD0C0"/>
+    <SolidColorBrush x:Key="MainBackgroundBrush" Color="White"/>
 
     <SolidColorBrush x:Key="MainFontBrush" Color="#043A6B"/>
     <SolidColorBrush x:Key="PreActiveFontBrush" Color="#26537C"/>
