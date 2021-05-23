@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controller.DataApis;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,11 @@ namespace Schedule.GUIs
 		public NoteEditionPage()
 		{
 			InitializeComponent();
+		}
+
+		public NoteEditionPage(INoteDisplayedData noteDisplayedData) : this()
+		{
+			DataContext = noteDisplayedData;
 		}
 	}
 }
