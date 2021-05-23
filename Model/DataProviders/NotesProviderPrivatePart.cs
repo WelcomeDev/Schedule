@@ -11,9 +11,9 @@ namespace Model.DataProviders
 		private readonly DataContractJsonSerializer jsonSerializer;
 		private readonly object locker = new object();
 
-		private const string FileName = "LocalDb";
-		private const string FileExtention = "json";
-		private const string FullName = FileName + "." + FileExtention;
+		private const string FileName = "LocalDb.json";
+		private const string FolderName = "ScheduleDb";
+		private readonly string FullName;
 
 		private List<CustomerNote> notes;
 

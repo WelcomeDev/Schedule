@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
@@ -20,6 +22,9 @@ namespace Model.DataProviders
 		private NotesProvider()
 		{
 			jsonSerializer = new DataContractJsonSerializer(typeof(CustomerNote));
+
+			var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			FullName = Path.Combine(documentsPath, FolderName, FileName);
 		}
 
 		/// <summary>
