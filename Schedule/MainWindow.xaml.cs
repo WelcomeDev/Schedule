@@ -18,6 +18,7 @@ namespace Schedule
 	{
 		private readonly MainController ctrl;
 		private readonly NavigationService navigation;
+		readonly List<NoteItem> allViewItems = new List<NoteItem>();
 
 		public MainWindow()
 		{
@@ -35,16 +36,29 @@ namespace Schedule
 
 		private void InitSource(IEnumerable<INoteDisplayedData> result)
 		{
-			List<NoteItem> notes = new List<NoteItem>();
 			foreach (var dat in result)
 			{
 				var note = new NoteItem(dat);
 				note.MouseDoubleClick += Note_MouseDoubleClick;
 
-				notes.Add(note);
+				allViewItems.Add(note);
 			}
 
-			notesListView.ItemsSource = notes;
+			ChangeDisplay();
+		}
+
+		private void ChangeDisplay(IEnumerable<INoteDisplayedData> newDisplay = null)
+		{
+			if(newDisplay is null)
+			{
+				notesListView.ItemsSource = allViewItems;
+			}
+			else
+			{
+				var res = allViewItems.Where(x => x.NoteData.Equals(newDisplay));
+
+				notesListView.ItemsSource = res;
+			}
 		}
 
 		private void Note_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -56,7 +70,19 @@ namespace Schedule
 
 		private void DisplayNote(INoteDisplayedData note)
 		{
-			navigation.Navigate(new NoteEditionPage(note));
+			var page = new NoteEditionPage(note);
+			page.ItemRemoved += Page_ItemRemoved;
+
+			navigation.Navigate(page);
+		}
+
+		private void Page_ItemRemoved(INoteDisplayedData obj)
+		{
+			var itemToBeRemoved = allViewItems.First(x => x.NoteData.Equals(obj));
+			allViewItems.Remove(itemToBeRemoved);
+			ChangeDisplay();
+
+			ctrl.Remove(obj);
 		}
 
 		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -70,13 +96,13 @@ namespace Schedule
 			if (first.Equals(last))
 			{
 				ctrl.GetDisplayedDataAsync(first)
-					.ContinueWith(t => InitSource(t.Result),
+					.ContinueWith(t => ChangeDisplay(t.Result),
 								TaskScheduler.Default);
 			}
 			else
 			{
 				ctrl.GetDisplayedDataAsync(first, last)
-					.ContinueWith(t => InitSource(t.Result),
+					.ContinueWith(t => ChangeDisplay(t.Result),
 								TaskScheduler.Default);
 			}
 

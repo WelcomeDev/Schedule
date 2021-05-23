@@ -19,6 +19,8 @@ namespace Schedule.GUIs
 	/// </summary>
 	public partial class NoteEditionPage : Page
 	{
+		public event Action<INoteDisplayedData> ItemRemoved;
+
 		public NoteEditionPage()
 		{
 			InitializeComponent();

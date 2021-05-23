@@ -69,5 +69,10 @@ namespace Controller
 					.AddSeconds(59 - finalDate.Second)
 					.AddMinutes(59 - finalDate.Minute);
 		}
+
+		public void Remove(INoteDisplayedData obj)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
