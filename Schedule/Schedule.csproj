@@ -10,4 +10,9 @@
     <Folder Include="Resources\Icons\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj" />
+    <ProjectReference Include="..\Controller\Controller.csproj" />
+  </ItemGroup>
+
 </Project>

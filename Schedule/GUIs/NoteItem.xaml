@@ -4,11 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Schedule.GUIs"
+             xmlns:context="clr-namespace:Controller.DataApis;assembly=Controller"
+             d:DataContext="{d:DesignInstance Type=context:INoteDisplayedData}"
              mc:Ignorable="d" 
              d:Background="White"
-             d:DesignHeight="100" d:DesignWidth="400"
+             d:DesignHeight="110" d:DesignWidth="400"
              d:BorderBrush="{StaticResource InactiveBorderBrush}"
-             MaxHeight="100">
+             MaxHeight="110" MinHeight="60"
+             Height="110"
+             MinWidth="150">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -39,7 +43,7 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}" 
@@ -47,14 +51,14 @@
                 <TextBox Grid.Column="1" 
                          Style="{StaticResource InputTextBox}" 
                          BorderThickness="1" 
-                         Text="Jopa"/>
+                         Text="{Binding Name, Mode=TwoWay}"/>
 
                 <TextBox Grid.Column="2"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"
                          Text="Дата: "/>
                 <TextBox Grid.Column="3"
                          Style="{StaticResource InputTextBox}"
-                         Text="18.54.3554"/>
+                         Text="{Binding Date, Mode=TwoWay}"/>
 
                 <TextBox Grid.Row="1"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"
@@ -63,7 +67,7 @@
                 <TextBox Grid.Column="1" Grid.Row="1"
                          Grid.ColumnSpan="3"
                          Style="{StaticResource InputTextBox}"
-                         Text="8(899)898-88-98"/>
+                         Text="{Binding Phone, Mode=TwoWay}"/>
 
             </Grid>
         </Border>
