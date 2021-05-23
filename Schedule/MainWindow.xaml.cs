@@ -24,5 +24,10 @@ namespace Schedule
 		{
 			InitializeComponent();
 		}
+
+		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
 	}
 }

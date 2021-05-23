@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schedule"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Расписание" 
+        MinHeight="600" MinWidth="1000">
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <Border Grid.Column="0"
+                Style="{StaticResource RightUnderlinedOuterBorder}">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox/>
+
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="2"
+                Width="150"
+                Style="{StaticResource UnderlinedLeftOuterBorder}">
+            <Frame Name="AddNoteFrame"/>
+        </Border>
+
+        <DockPanel Grid.Column="1"
+                  HorizontalAlignment="Center">
+            <Button DockPanel.Dock="Right" 
+                    Background="Red" 
+                    Margin="50,0,0,0"
+                    VerticalAlignment="Top" Width="50" Height="50"/>
+            <Calendar RenderTransformOrigin="0.75 0"
+                      SelectionMode="MultipleRange"
+                      SelectedDatesChanged="Calendar_SelectedDatesChanged">
+                <Calendar.RenderTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </Calendar.RenderTransform>
+            </Calendar>
+        </DockPanel>
+        
+        
 
     </Grid>
 </Window>
