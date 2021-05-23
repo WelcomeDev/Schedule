@@ -38,17 +38,21 @@
         </Border>
 
         <Border Grid.Column="2"
-                Width="150"
+                Width="Auto"
                 Style="{StaticResource UnderlinedLeftOuterBorder}">
             <Frame Name="AddNoteFrame"/>
         </Border>
 
         <DockPanel Grid.Column="1"
                   HorizontalAlignment="Center">
-            <Button DockPanel.Dock="Right" 
+            
+            <Button DockPanel.Dock="Right"
+                    x:Name="AddNewNoteButton"
                     Background="Red" 
                     Margin="50,0,0,0"
-                    VerticalAlignment="Top" Width="50" Height="50"/>
+                    VerticalAlignment="Top" Width="50" Height="50"
+                    Click="AddNewNoteButton_Click"/>
+            
             <Calendar RenderTransformOrigin="0.75 0"
                       SelectionMode="MultipleRange"
                       SelectedDatesChanged="Calendar_SelectedDatesChanged">
@@ -56,6 +60,7 @@
                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                 </Calendar.RenderTransform>
             </Calendar>
+            
         </DockPanel>
         
         

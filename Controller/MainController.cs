@@ -53,6 +53,10 @@ namespace Controller
 						.Select(x => adapter.ConvertToNoteData(x));
 		}
 
+
+		public INoteDisplayedData AddNewNote()
+			=>  new NoteDisplayedData(new CustomerNote(null, null, DateTime.Today));
+
 		private void DatesToCorrectComparableFormat(ref DateTime initialDate, ref DateTime finalDate)
 		{
 			//в начало суток

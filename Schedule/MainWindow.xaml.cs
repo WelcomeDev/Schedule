@@ -1,21 +1,13 @@
 ﻿using Controller;
 using Controller.DataApis;
 using Schedule.GUIs;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Schedule
 {
@@ -25,6 +17,7 @@ namespace Schedule
 	public partial class MainWindow : Window
 	{
 		private readonly MainController ctrl;
+		private readonly NavigationService navigation;
 
 		public MainWindow()
 		{
@@ -32,16 +25,18 @@ namespace Schedule
 
 			ctrl = new MainController(null);
 
+			navigation = NavigationService.GetNavigationService(AddNoteFrame);
+
 			//ассинхронное получение данных и продолжение в главном потоке
 			ctrl.GetDisplayedDataAsync()
-				.ContinueWith(t => InitSource(t.Result), 
+				.ContinueWith(t => InitSource(t.Result),
 					TaskScheduler.Default);
 		}
 
 		private void InitSource(IEnumerable<INoteDisplayedData> result)
 		{
 			List<NoteItem> notes = new List<NoteItem>();
-			foreach(var dat in result)
+			foreach (var dat in result)
 			{
 				var note = new NoteItem(dat);
 				note.MouseDoubleClick += Note_MouseDoubleClick;
@@ -54,13 +49,43 @@ namespace Schedule
 
 		private void Note_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			var o = sender as NoteItem;
-			Debug.WriteLine($"Opening:...\n {o.NoteData}");
+			var note = sender as NoteItem;
+
+			DisplayNote(note.NoteData);
+		}
+
+		private void DisplayNote(INoteDisplayedData note)
+		{
+			navigation.Navigate(new NoteEditionPage(note));
 		}
 
 		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
 		{
-			
+			var cal = sender as Calendar;
+
+			var dates = cal.SelectedDates;
+			var first = dates.First();
+			var last = dates.Last();
+
+			if (first.Equals(last))
+			{
+				ctrl.GetDisplayedDataAsync(first)
+					.ContinueWith(t => InitSource(t.Result),
+								TaskScheduler.Default);
+			}
+			else
+			{
+				ctrl.GetDisplayedDataAsync(first, last)
+					.ContinueWith(t => InitSource(t.Result),
+								TaskScheduler.Default);
+			}
+
+		}
+
+		private void AddNewNoteButton_Click(object sender, RoutedEventArgs e)
+		{
+			var data = ctrl.AddNewNote();
+			DisplayNote(data);
 		}
 	}
 }
