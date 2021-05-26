@@ -58,15 +58,23 @@ namespace Controller
 			dataProvider.Delete(obj as CustomerNote);
 		}
 
-		public void Add(INoteDisplayedData obj)
+		/// <summary>
+		/// Добавляет запись асинхронно
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns>Может вернуть Task.Status = Faulted, если возникла ошибка</returns>
+		public async Task Add(INoteDisplayedData obj)
 		{
 			var addTask = dataProvider.AddAsync(obj as CustomerNote);
 
-			addTask.ContinueWith(t => Notify(OnSuccessfulAdditionMessage),
-							TaskContinuationOptions.OnlyOnRanToCompletion)
-					.ContinueWith(null);
+			await addTask.ContinueWith(t => Notify(OnSuccessfulAdditionMessage),
+							TaskContinuationOptions.OnlyOnRanToCompletion);
 
-			addTask.ContinueWith(t => Notify(OnAdditionExceptionMessage),
+			await addTask.ContinueWith(t =>
+				{
+					Notify(OnAdditionExceptionMessage);
+					throw t.Exception.InnerException;
+				},
 				TaskContinuationOptions.OnlyOnFaulted);
 
 		}
