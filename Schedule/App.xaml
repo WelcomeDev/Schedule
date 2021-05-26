@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Resources\Styles\Brushes.xaml"/>
                 <ResourceDictionary Source="Resources\Styles\BordersDictionary.xaml"/>
                 <ResourceDictionary Source="Resources\Styles\TextBoxDictionary.xaml"/>
+                <ResourceDictionary Source="Resources\Styles\ButtonsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
