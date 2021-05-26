@@ -40,6 +40,10 @@ namespace Model.DataProviders
 		/// <returns></returns>
 		public async Task AddAsync(CustomerNote instance)
 		{
+			if (instance is null)
+				await Task.Run(() => 
+						throw new ArgumentNullException(nameof(instance)));
+
 			if (notes is null)
 			{
 				await GetAllAsync();
@@ -48,20 +52,9 @@ namespace Model.DataProviders
 			notes.Add(instance);
 		}
 
-		/// <summary>
-		/// Удаление объекта
-		/// Вызывается перед этим <see cref="GetAllAsync"/>, если не был вызван ранее
-		/// </summary>
-		/// <param name="instance"></param>
-		/// <returns></returns>
-		public async Task Delete(CustomerNote instance)
+		public void Delete(CustomerNote instance)
 		{
-			if (notes is null)
-			{
-				await GetAllAsync();
-			}
-
-			notes.Remove(instance);
+			notes?.Remove(instance);
 		}
 
 		/// <summary>
