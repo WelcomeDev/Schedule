@@ -47,6 +47,10 @@ namespace Schedule
 			ChangeDisplay();
 		}
 
+		/// <summary>
+		/// Обновление отображения
+		/// </summary>
+		/// <param name="newDisplay">Коллекция записей с данными для нового отображения</param>
 		private void ChangeDisplay(IEnumerable<INoteDisplayedData> newDisplay = null)
 		{
 			if(newDisplay is null)
@@ -68,12 +72,32 @@ namespace Schedule
 			DisplayNote(note.NoteData);
 		}
 
+		/// <summary>
+		/// Отображает выбранную запись в <see cref="NoteEditionPage"/>
+		/// </summary>
+		/// <param name="note"></param>
 		private void DisplayNote(INoteDisplayedData note)
 		{
 			var page = new NoteEditionPage(note);
 			page.ItemRemoved += Page_ItemRemoved;
+			page.EndOfInput += Page_EndOfInput;
+			page.ItemCreated += Page_ItemCreated;
 
 			AddNoteFrame.Navigate(page);
+		}
+
+		private void Page_ItemCreated(INoteDisplayedData obj)
+		{
+			NoteItem noteUI = new NoteItem(obj);
+			allViewItems.Add(noteUI);
+			ChangeDisplay();
+
+			ctrl.Add(obj);
+		}
+
+		private void Page_EndOfInput()
+		{
+			throw new System.NotImplementedException();
 		}
 
 		private void Page_ItemRemoved(INoteDisplayedData obj)
