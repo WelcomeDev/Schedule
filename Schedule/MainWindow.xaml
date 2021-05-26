@@ -40,7 +40,8 @@
         <Border Grid.Column="2"
                 Width="Auto"
                 Style="{StaticResource UnderlinedLeftOuterBorder}">
-            <Frame Name="AddNoteFrame"/>
+            <Frame Name="AddNoteFrame"
+                   NavigationUIVisibility="Hidden"/>
         </Border>
 
         <DockPanel Grid.Column="1"

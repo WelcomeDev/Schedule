@@ -17,7 +17,6 @@ namespace Schedule
 	public partial class MainWindow : Window
 	{
 		private readonly MainController ctrl;
-		private readonly NavigationService navigation;
 		readonly List<NoteItem> allViewItems = new List<NoteItem>();
 		private readonly TaskScheduler uiContext;
 
@@ -28,8 +27,6 @@ namespace Schedule
 			ctrl = new MainController(null);
 
 			uiContext = TaskScheduler.FromCurrentSynchronizationContext();
-
-			navigation = NavigationService.GetNavigationService(AddNoteFrame);
 
 			//ассинхронное получение данных и продолжение в главном потоке
 			ctrl.GetDisplayedDataAsync()
@@ -76,7 +73,7 @@ namespace Schedule
 			var page = new NoteEditionPage(note);
 			page.ItemRemoved += Page_ItemRemoved;
 
-			navigation.Navigate(page);
+			AddNoteFrame.Navigate(page);
 		}
 
 		private void Page_ItemRemoved(INoteDisplayedData obj)
