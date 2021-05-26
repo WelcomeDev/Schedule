@@ -7,6 +7,10 @@ namespace Controller.DataApis
 	/// </summary>
 	public class Adapter
 	{
-		public INoteDisplayedData ConvertToNoteData(INote customerNote) => new NoteDisplayedData(customerNote);
+		public INoteDisplayedData ConvertToNoteData(INote customerNote) =>
+			new NoteDisplayedData(customerNote);
+
+		public INote ConvertToNote(INoteDisplayedData displayedData)=>
+			new CustomerNote(displayedData.Name, displayedData.Phone, displayedData.Date);
 	}
 }

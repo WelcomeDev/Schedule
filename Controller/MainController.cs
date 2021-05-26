@@ -58,6 +58,9 @@ namespace Controller
 			dataProvider.Delete(obj as CustomerNote);
 		}
 
+		//TODO: проверка на цифры в имени
+		//SOLVE: при addAsync кидается Exception - нужно, чтобы Task просто умирал
+
 		/// <summary>
 		/// Добавляет запись асинхронно
 		/// </summary>
@@ -65,7 +68,9 @@ namespace Controller
 		/// <returns>Может вернуть Task.Status = Faulted, если возникла ошибка</returns>
 		public async Task Add(INoteDisplayedData obj)
 		{
-			var addTask = dataProvider.AddAsync(obj as CustomerNote);
+			var note = adapter.ConvertToNote(obj);
+
+			var addTask = dataProvider.AddAsync(note as CustomerNote);
 
 			await addTask.ContinueWith(t => Notify(OnSuccessfulAdditionMessage),
 							TaskContinuationOptions.OnlyOnRanToCompletion);
