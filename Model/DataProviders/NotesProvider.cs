@@ -24,7 +24,12 @@ namespace Model.DataProviders
 			jsonSerializer = new DataContractJsonSerializer(typeof(CustomerNote));
 
 			var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			FullName = Path.Combine(documentsPath, FolderName, FileName);
+
+			documentsPath = Path.Combine(documentsPath, FolderName);
+			if (Directory.Exists(documentsPath) == false)
+				Directory.CreateDirectory(documentsPath);
+
+			FullName = Path.Combine(documentsPath, FileName);
 		}
 
 		/// <summary>
