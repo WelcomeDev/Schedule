@@ -19,6 +19,7 @@ namespace Schedule
 		private readonly MainController ctrl;
 		private readonly NavigationService navigation;
 		readonly List<NoteItem> allViewItems = new List<NoteItem>();
+		private readonly TaskScheduler uiContext;
 
 		public MainWindow()
 		{
@@ -26,12 +27,14 @@ namespace Schedule
 
 			ctrl = new MainController(null);
 
+			uiContext = TaskScheduler.FromCurrentSynchronizationContext();
+
 			navigation = NavigationService.GetNavigationService(AddNoteFrame);
 
 			//ассинхронное получение данных и продолжение в главном потоке
 			ctrl.GetDisplayedDataAsync()
 				.ContinueWith(t => InitSource(t.Result),
-					TaskScheduler.Default);
+						uiContext);
 		}
 
 		private void InitSource(IEnumerable<INoteDisplayedData> result)
@@ -97,13 +100,13 @@ namespace Schedule
 			{
 				ctrl.GetDisplayedDataAsync(first)
 					.ContinueWith(t => ChangeDisplay(t.Result),
-								TaskScheduler.Default);
+								uiContext);
 			}
 			else
 			{
 				ctrl.GetDisplayedDataAsync(first, last)
 					.ContinueWith(t => ChangeDisplay(t.Result),
-								TaskScheduler.Default);
+								uiContext);
 			}
 
 		}
