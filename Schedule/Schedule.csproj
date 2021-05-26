@@ -7,12 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Icons\" />
+    <None Remove="Resources\Icons\add_icon.png" />
+    <None Remove="Resources\Icons\app_icon.png" />
+    <None Remove="Resources\Icons\remove_icon.png" />
+    <None Remove="Resources\Icons\save_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\Controller\Controller.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\add_icon.png" />
+    <Resource Include="Resources\Icons\app_icon.png" />
+    <Resource Include="Resources\Icons\remove_icon.png" />
+    <Resource Include="Resources\Icons\save_icon.png" />
   </ItemGroup>
 
 </Project>

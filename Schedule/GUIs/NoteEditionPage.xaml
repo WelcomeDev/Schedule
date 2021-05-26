@@ -8,9 +8,10 @@
       xmlns:val="clr-namespace:Schedule.Validation"
       d:DataContext="{d:DesignInstance Type=data:INoteDisplayedData}"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="150"
+      d:DesignHeight="450"
       d:Background="{StaticResource MainBackgroundBrush}"
-      Title="NoteEditionPage">
+      Title="NoteEditionPage"
+      Width="200">
 
     <DockPanel LastChildFill="False">
 
@@ -87,17 +88,30 @@
             </Grid>
         </Border>
 
-        <Border Style="{StaticResource UnderlinedInnerBorder}"
+        <Border Style="{StaticResource TopUnderlinedInnerBorder}"
                 DockPanel.Dock="Bottom"
                 Height="Auto">
             <DockPanel LastChildFill="False">
+                <DockPanel.Resources>
+                    <Style x:Key="RemoveButton" TargetType="Button" BasedOn="{StaticResource AddRoundButton}">
+                        <Setter Property="BorderBrush" Value="Red"/>
+                    </Style>
+                </DockPanel.Resources>
+
                 <Button x:Name="okButton"
+                        Click="OkButton_Click"
                         DockPanel.Dock="Left"
-                        Background="Red" Height="50" Width="50"/>
-                
+                        Style="{StaticResource AddRoundButton}">
+                    <Image Source="pack://application:,,,/Resources/Icons/save_icon.png"/>
+                </Button>
+
                 <Button x:Name="removeButton"
+                        Click="RemoveButton_Click"
                         DockPanel.Dock="Right"
-                        Background="Red" Height="50" Width="50"/>
+                        Style="{StaticResource RemoveButton}">
+                    <Image Source="pack://application:,,,/Resources/Icons/remove_icon.png"/>
+                </Button>
+                
             </DockPanel>
         </Border>
 

@@ -19,7 +19,15 @@ namespace Schedule.GUIs
 	/// </summary>
 	public partial class NoteEditionPage : Page
 	{
-		public event Action<INoteDisplayedData> ItemRemoved;
+		private readonly INoteDisplayedData noteDisplayedData;
+
+		internal event Action<INoteDisplayedData> ItemRemoved;
+
+		internal event Action<INoteDisplayedData> ItemCreated;
+
+		internal event Action EndOfInput;
+
+		private readonly bool isOnCreation = false;
 
 		public NoteEditionPage()
 		{
@@ -28,7 +36,23 @@ namespace Schedule.GUIs
 
 		public NoteEditionPage(INoteDisplayedData noteDisplayedData) : this()
 		{
+			isOnCreation = noteDisplayedData.Name is null;
+
+			this.noteDisplayedData = noteDisplayedData;
 			DataContext = noteDisplayedData;
+		}
+
+		private void OkButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (isOnCreation)
+				ItemCreated?.Invoke(noteDisplayedData);
+
+			EndOfInput?.Invoke();
+		}
+
+		private void RemoveButton_Click(object sender, RoutedEventArgs e)
+		{
+			ItemRemoved?.Invoke(noteDisplayedData);
 		}
 	}
 }
