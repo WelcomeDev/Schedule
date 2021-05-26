@@ -53,6 +53,7 @@ namespace Schedule.GUIs
 		private void RemoveButton_Click(object sender, RoutedEventArgs e)
 		{
 			ItemRemoved?.Invoke(noteDisplayedData);
+			EndOfInput?.Invoke();
 		}
 	}
 }

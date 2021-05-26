@@ -123,7 +123,7 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="outerBorder" Property="BorderThickness" Value="2"/>
                             <Setter TargetName="outerBorder" Property="BorderBrush" Value="{StaticResource InactiveBorderBrush}"/>
                         </Trigger>
@@ -135,13 +135,28 @@
 
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="outerBorder" Property="BorderBrush" Value="LightGray"/>
-                        </Trigger>
+                        </Trigger>-->
 
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter  Property="BorderThickness" Value="2"/>
+                <Setter  Property="BorderBrush" Value="{StaticResource InactiveBorderBrush}"/>
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter  Property="BorderThickness" Value="2.5"/>
+                <Setter  Property="BorderBrush" Value="{StaticResource ActiveBorderBrush}"/>
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="BorderBrush" Value="LightGray"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="ABitRoundButton" TargetType="Button" BasedOn="{StaticResource RoundButton}">

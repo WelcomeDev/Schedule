@@ -93,8 +93,17 @@
                 Height="Auto">
             <DockPanel LastChildFill="False">
                 <DockPanel.Resources>
-                    <Style x:Key="RemoveButton" TargetType="Button" BasedOn="{StaticResource AddRoundButton}">
-                        <Setter Property="BorderBrush" Value="Red"/>
+                    <Style x:Key="RemoveButton" TargetType="Button" 
+                                                BasedOn="{StaticResource AddRoundButton}">
+                        <Setter Property="BorderBrush" Value="{StaticResource DangerousBrush}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource OnActiveDangerousBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </DockPanel.Resources>
 

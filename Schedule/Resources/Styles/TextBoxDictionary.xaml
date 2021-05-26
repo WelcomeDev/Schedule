@@ -51,7 +51,7 @@
 
     <ControlTemplate x:Key="ValidationTemplate">
         <DockPanel VerticalAlignment="Center" Margin="5">
-            <TextBlock Foreground="{StaticResource InvalidDataBrush}" FontSize="30">!</TextBlock>
+            <TextBlock Foreground="{StaticResource DangerousBrush}" FontSize="30">!</TextBlock>
             <AdornedElementPlaceholder/>
         </DockPanel>
     </ControlTemplate>

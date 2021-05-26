@@ -80,10 +80,15 @@ namespace Schedule
 		{
 			var page = new NoteEditionPage(note);
 			page.ItemRemoved += Page_ItemRemoved;
-			page.EndOfInput += Page_EndOfInput;
+			page.EndOfInput += HidePage;
 			page.ItemCreated += Page_ItemCreated;
 
 			AddNoteFrame.Navigate(page);
+		}
+
+		private void HidePage()
+		{
+			AddNoteFrame.Navigate(null);
 		}
 
 		private void Page_ItemCreated(INoteDisplayedData obj)
@@ -96,14 +101,9 @@ namespace Schedule
 			}, TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 
-		private void Page_EndOfInput()
-		{
-			throw new System.NotImplementedException();
-		}
-
 		private void Page_ItemRemoved(INoteDisplayedData obj)
 		{
-			var itemToBeRemoved = allViewItems.First(x => x.NoteData.Equals(obj));
+			var itemToBeRemoved = allViewItems.FirstOrDefault(x => x.NoteData.Equals(obj));
 			allViewItems.Remove(itemToBeRemoved);
 			ChangeDisplay();
 
