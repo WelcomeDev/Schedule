@@ -93,12 +93,22 @@ namespace Schedule
 
 		private void Page_ItemCreated(INoteDisplayedData obj)
 		{
+			//если элемент был успешно добавлен запускаем внутренний таск
 			ctrl.Add(obj).ContinueWith(t =>
-			{
-				NoteItem noteUI = new NoteItem(obj);
-				allViewItems.Add(noteUI);
-				ChangeDisplay();
-			}, TaskContinuationOptions.OnlyOnRanToCompletion);
+						{
+							//в главном потоке меняет GUI
+							var innerTask = new Task(() =>
+													{
+														NoteItem noteUI = new NoteItem(obj);
+														allViewItems.Add(noteUI);
+														ChangeDisplay();
+														HidePage();
+													}, 
+													TaskCreationOptions.AttachedToParent);
+							innerTask.Start(uiContext);
+
+						}, 
+						TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 
 		private void Page_ItemRemoved(INoteDisplayedData obj)
