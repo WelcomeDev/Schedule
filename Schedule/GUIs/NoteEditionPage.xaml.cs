@@ -30,5 +30,15 @@ namespace Schedule.GUIs
 		{
 			DataContext = noteDisplayedData;
 		}
+
+		private void OkButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void RemoveButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }

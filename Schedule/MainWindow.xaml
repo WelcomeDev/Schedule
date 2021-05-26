@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Schedule"
         mc:Ignorable="d"
         Title="Расписание" 
-        MinHeight="600" MinWidth="1000">
+        MinHeight="600" MinWidth="1000"
+        Icon="pack://application:,,,/Resources/Icons/app_icon.png">
     <Grid Background="{StaticResource MainBackgroundBrush}">
 
         <Grid.ColumnDefinitions>
@@ -26,7 +27,6 @@
 
                 <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}"
                          TextAlignment="Center"
-                         
                          Text="17.27.2741-98.26.4647"/>
 
                 <ListView Grid.Row="1"
@@ -46,13 +46,15 @@
 
         <DockPanel Grid.Column="1"
                   HorizontalAlignment="Center">
-            
+
             <Button DockPanel.Dock="Right"
                     x:Name="AddNewNoteButton"
-                    Background="Red" 
                     Margin="50,0,0,0"
-                    VerticalAlignment="Top" Width="50" Height="50"
-                    Click="AddNewNoteButton_Click"/>
+                    VerticalAlignment="Top"
+                    Style="{StaticResource AddRoundButton}"
+                    Click="AddNewNoteButton_Click">
+                <Image Source="pack://application:,,,/Resources/Icons/add_icon.png"/>
+            </Button>
             
             <Calendar RenderTransformOrigin="0.75 0"
                       SelectionMode="MultipleRange"

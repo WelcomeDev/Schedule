@@ -11,6 +11,12 @@
                 <ResourceDictionary Source="Resources\Styles\TextBoxDictionary.xaml"/>
                 <ResourceDictionary Source="Resources\Styles\ButtonsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="AddRoundButton" TargetType="Button" BasedOn="{StaticResource RoundButton}">
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="Width" Value="50"/>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
