@@ -2,6 +2,7 @@
 using Controller.DataApis;
 using Schedule.GUIs;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,7 +25,7 @@ namespace Schedule
 		{
 			InitializeComponent();
 
-			ctrl = new MainController(null);
+			ctrl = new MainController(ToDebug);
 
 			uiContext = TaskScheduler.FromCurrentSynchronizationContext();
 
@@ -32,6 +33,11 @@ namespace Schedule
 			ctrl.GetDisplayedDataAsync()
 				.ContinueWith(t => InitSource(t.Result),
 						uiContext);
+		}
+
+		private void ToDebug(string s)
+		{
+			Debug.WriteLine(s);
 		}
 
 		private void InitSource(IEnumerable<INoteDisplayedData> result)
@@ -94,21 +100,21 @@ namespace Schedule
 		private void Page_ItemCreated(INoteDisplayedData obj)
 		{
 			//если элемент был успешно добавлен запускаем внутренний таск
-			ctrl.Add(obj).ContinueWith(t =>
-						{
-							//в главном потоке меняет GUI
-							var innerTask = new Task(() =>
-													{
-														NoteItem noteUI = new NoteItem(obj);
-														allViewItems.Add(noteUI);
-														ChangeDisplay();
-														HidePage();
-													}, 
-													TaskCreationOptions.AttachedToParent);
-							innerTask.Start(uiContext);
+			var res = ctrl.Add(obj).ContinueWith(t =>
+			{
+				Debug.WriteLine("в главном потоке меняет GUI");
+				//в главном потоке меняет GUI
+				var innerTask = new Task(() =>
+				{
+					NoteItem noteUI = new NoteItem(obj);
+					allViewItems.Add(noteUI);
+					ChangeDisplay();
+					HidePage();
+				},
+										TaskCreationOptions.AttachedToParent);
+				innerTask.Start(uiContext);
 
-						}, 
-						TaskContinuationOptions.OnlyOnRanToCompletion);
+			}, TaskContinuationOptions.NotOnFaulted);
 		}
 
 		private void Page_ItemRemoved(INoteDisplayedData obj)

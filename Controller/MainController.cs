@@ -58,6 +58,9 @@ namespace Controller
 			dataProvider.Delete(obj as CustomerNote);
 		}
 
+		//SOLVE: проверка имени через Regex
+		//TODO: заблокировать ввод в NoteItem
+		//SOLVE: проверить возможность редактирования в Page и открытии через NoteItem
 		//TODO: проверка на цифры в имени
 		//SOLVE: при addAsync кидается Exception - нужно, чтобы Task просто умирал
 

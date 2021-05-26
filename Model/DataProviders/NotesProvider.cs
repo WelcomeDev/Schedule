@@ -41,8 +41,7 @@ namespace Model.DataProviders
 		public async Task AddAsync(CustomerNote instance)
 		{
 			if (instance is null)
-				await Task.Run(() => 
-						throw new ArgumentNullException(nameof(instance)));
+				throw new ArgumentNullException(nameof(instance));
 
 			if (notes is null)
 			{

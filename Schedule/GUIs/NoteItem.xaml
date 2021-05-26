@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:Background="White"
              d:DesignHeight="110" d:DesignWidth="400"
-             d:BorderBrush="{StaticResource InactiveBorderBrush}"
+             BorderBrush="{StaticResource InactiveBorderBrush}"
              MaxHeight="110" MinHeight="60"
              Height="110"
              MinWidth="150">
