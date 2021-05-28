@@ -28,7 +28,9 @@
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
 
                 <TextBox Style="{StaticResource InputTextBox}"
-                         Grid.Row="1">
+                         Grid.Row="1"
+                         x:Name="nameTextBox"
+                         Validation.Error="ValidationError_Invoke">
                     <TextBox.Text>
                         <Binding Path="Name" Mode="TwoWay"
                                  UpdateSourceTrigger="PropertyChanged">
@@ -57,7 +59,9 @@
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
                 
                 <DatePicker Grid.Row="1"
+                            x:Name="dateSelector"
                             SelectedDateFormat="Short"
+                            SelectedDate="{Binding Date, Mode=TwoWay}"
                             IsDropDownOpen="False"/>
 
                 <TextBox Text="Время"
@@ -91,7 +95,9 @@
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
 
                 <TextBox Style="{StaticResource InputTextBox}"
-                         Grid.Row="1">
+                         Grid.Row="1"
+                         Name="phoneTextBox"
+                         Validation.Error="ValidationError_Invoke">
                     <TextBox.Text>
                         <Binding Path="Phone" Mode="TwoWay"
                                  UpdateSourceTrigger="PropertyChanged">

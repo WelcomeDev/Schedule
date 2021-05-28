@@ -1,16 +1,9 @@
-﻿using Controller.DataApis;
+﻿using Controller;
+using Controller.DataApis;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Validator = System.Windows.Controls.Validation;
 
 namespace Schedule.GUIs
 {
@@ -19,6 +12,8 @@ namespace Schedule.GUIs
 	/// </summary>
 	public partial class NoteEditionPage : Page
 	{
+		private const string InvalidDataMessage = "Не все данные корректны!";
+
 		private readonly INoteDisplayedData noteDisplayedData;
 
 		internal event Action<INoteDisplayedData> ItemRemoved;
@@ -28,15 +23,18 @@ namespace Schedule.GUIs
 		internal event Action EndOfInput;
 
 		private readonly bool isOnCreation = false;
+		private readonly NoteEditionController ctrl;
 
 		public NoteEditionPage()
 		{
 			InitializeComponent();
+
+			ctrl = new NoteEditionController(null);
 		}
 
 		public NoteEditionPage(INoteDisplayedData noteDisplayedData) : this()
 		{
-			isOnCreation = noteDisplayedData is null || 
+			isOnCreation = noteDisplayedData is null ||
 				noteDisplayedData.Name is null;
 
 			this.noteDisplayedData = noteDisplayedData;
@@ -45,19 +43,23 @@ namespace Schedule.GUIs
 
 		private void OkButton_Click(object sender, RoutedEventArgs e)
 		{
-			if(IsValidated())
+			if (IsValidated())
 			{
 				if (isOnCreation)
 					ItemCreated?.Invoke(noteDisplayedData);
 
 				EndOfInput?.Invoke();
 			}
+			//TODO: выделить неверный ввод
+			ctrl.Notify(InvalidDataMessage);
 		}
 
 		private bool IsValidated()
-		{
-			return true;
-		}
+			=> !Validator.GetHasError(nameTextBox) &&
+				!Validator.GetHasError(phoneTextBox) &&
+				hourCB.SelectedItem != null &&
+				minuteCB.SelectedItem != null &&
+				dateSelector.SelectedDate != null;
 
 		private void RemoveButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -73,6 +75,11 @@ namespace Schedule.GUIs
 		private void MinuteCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 
+		}
+
+		private void ValidationError_Invoke(object sender, ValidationErrorEventArgs e)
+		{
+			ctrl.Notify(e.Error.ErrorContent.ToString());
 		}
 	}
 }

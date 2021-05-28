@@ -11,7 +11,7 @@ namespace Controller
 			this.notifier = notifier;
 		}
 
-		protected void Notify(string message)
+		public void Notify(string message)
 		{
 			notifier?.Invoke(message);
 		}
