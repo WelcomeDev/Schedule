@@ -10,6 +10,9 @@ namespace Controller
 {
 	public partial class MainController : ControllerBase
 	{
+		private const string DBSuccessfullySyncedMessage = "Успешно синхронизировано";
+		private const string DBSynceErrorMessage = "Ошибка синхронизиронизации";
+
 		public MainController(Action<string> notifier) : base(notifier)
 		{
 			dataProvider = NotesProvider.GetInstance();
@@ -52,16 +55,25 @@ namespace Controller
 			=> new NoteDisplayedData(new CustomerNote(null, null, DateTime.Today));
 
 
+		public void Save()
+		{
+			var saveTask = dataProvider.SaveAsync();
+
+			saveTask.ContinueWith(t => Notify(DBSuccessfullySyncedMessage),
+				TaskContinuationOptions.OnlyOnRanToCompletion);
+
+			saveTask.ContinueWith(t => Notify(DBSynceErrorMessage),
+				TaskContinuationOptions.OnlyOnFaulted);
+		}
+
 		public void Remove(INoteDisplayedData obj)
 		{
 			dataProvider.Delete(obj as CustomerNote);
+
+			Save();
 		}
 
 		//TODO: потокобезопасность в MainWindowData
-		//SOLVE: проверка имени через Regex
-		//TODO: заблокировать ввод в NoteItem
-		//SOLVE: проверить возможность редактирования в Page и открытии через NoteItem
-		//TODO: проверка на цифры в имени
 		//SOLVE: при addAsync кидается Exception - нужно, чтобы Task просто умирал
 
 		/// <summary>
@@ -75,7 +87,11 @@ namespace Controller
 
 			var addTask = dataProvider.AddAsync(note as CustomerNote);
 
-			await addTask.ContinueWith(t => Notify(OnSuccessfulAdditionMessage),
+			await addTask.ContinueWith(t =>
+							{
+								Notify(OnSuccessfulAdditionMessage);
+								Save();
+							},
 							TaskContinuationOptions.OnlyOnRanToCompletion);
 
 			await addTask.ContinueWith(t =>
