@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
 namespace BL
@@ -49,6 +50,13 @@ namespace BL
 
 		private const string InvalidPhoneMessage = "Неверный номер телефона";
 
-		private static bool IsNameValid(string input) => !string.IsNullOrWhiteSpace(input);
+		private const string RegexNamePattern = @"[а-я, ]{1-30}";
+
+		public const int MaxNameLength = 30;
+
+		private static bool IsNameValid(string input)
+			=> !string.IsNullOrWhiteSpace(input) &&
+				Regex.IsMatch(input, RegexNamePattern);
+
 	}
 }
