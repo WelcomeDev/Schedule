@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Controller
 {
-	public partial class MainController
+	public partial class MainController : ControllerBase
 	{
-		public MainController(Action<string> notifier)
+		public MainController(Action<string> notifier) : base(notifier)
 		{
 			dataProvider = NotesProvider.GetInstance();
 			adapter = new Adapter();
-			this.notifier = notifier;
 		}
 
 		/// <summary>

@@ -3,7 +3,6 @@ using Model;
 using Model.DataProviders;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Controller
 {
@@ -11,7 +10,6 @@ namespace Controller
 	{
 		private readonly NotesProvider dataProvider;
 		private readonly Adapter adapter;
-		private readonly Action<string> notifier;
 		private IEnumerable<CustomerNote> res;
 
 		private void DatesToCorrectComparableFormat(ref DateTime initialDate, ref DateTime finalDate)
@@ -29,10 +27,5 @@ namespace Controller
 
 		private const string OnSuccessfulAdditionMessage = "Запись успешно добавлена";
 		private const string OnAdditionExceptionMessage = "Во время добавления возникла ошибка!";
-
-		private void Notify(string message)
-		{
-			notifier?.Invoke(message);
-		}
 	}
 }
