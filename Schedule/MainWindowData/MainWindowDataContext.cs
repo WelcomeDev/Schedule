@@ -3,6 +3,7 @@ using Schedule.GUIs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -17,8 +18,7 @@ namespace Schedule
 		private class MainWindowData
 		{
 			private readonly List<NoteItem> allViewItems;
-
-			public ObservableCollection<NoteItem> DisplayedData { get; private set; }
+			public ObservableCollection<NoteItem> DisplayedData { get; } = new ObservableCollection<NoteItem>();
 
 			public MainWindowData()
 			{
@@ -27,7 +27,11 @@ namespace Schedule
 
 			public void InitSource(IEnumerable<INoteDisplayedData> result)
 			{
-				DisplayedData = new ObservableCollection<NoteItem>();
+				if (allViewItems.Count > 0)
+				{
+					allViewItems.Clear();
+					DisplayedData.Clear();
+				}
 
 				foreach (var dat in result)
 				{
@@ -57,7 +61,11 @@ namespace Schedule
 			{
 				var res = allViewItems.Where(x => x.NoteData.Equals(newDisplay));
 
-				DisplayedData = new ObservableCollection<NoteItem>(res);
+				DisplayedData.Clear();
+				foreach (var item in res)
+				{
+					DisplayedData.Add(item);
+				}
 			}
 		}
 	}

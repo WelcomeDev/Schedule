@@ -58,6 +58,7 @@ namespace Controller
 			dataProvider.Delete(obj as CustomerNote);
 		}
 
+		//TODO: потокобезопасность в MainWindowData
 		//SOLVE: проверка имени через Regex
 		//TODO: заблокировать ввод в NoteItem
 		//SOLVE: проверить возможность редактирования в Page и открытии через NoteItem
