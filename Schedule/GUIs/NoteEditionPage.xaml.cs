@@ -36,7 +36,8 @@ namespace Schedule.GUIs
 
 		public NoteEditionPage(INoteDisplayedData noteDisplayedData) : this()
 		{
-			isOnCreation = noteDisplayedData.Name is null;
+			isOnCreation = noteDisplayedData is null || 
+				noteDisplayedData.Name is null;
 
 			this.noteDisplayedData = noteDisplayedData;
 			DataContext = noteDisplayedData;
@@ -44,16 +45,34 @@ namespace Schedule.GUIs
 
 		private void OkButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (isOnCreation)
-				ItemCreated?.Invoke(noteDisplayedData);
+			if(IsValidated())
+			{
+				if (isOnCreation)
+					ItemCreated?.Invoke(noteDisplayedData);
 
-			EndOfInput?.Invoke();
+				EndOfInput?.Invoke();
+			}
+		}
+
+		private bool IsValidated()
+		{
+			return true;
 		}
 
 		private void RemoveButton_Click(object sender, RoutedEventArgs e)
 		{
 			ItemRemoved?.Invoke(noteDisplayedData);
 			EndOfInput?.Invoke();
+		}
+
+		private void HourCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+
+		private void MinuteCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
 		}
 	}
 }

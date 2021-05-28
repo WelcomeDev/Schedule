@@ -48,6 +48,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
 
@@ -58,6 +60,20 @@
                             SelectedDateFormat="Short"
                             IsDropDownOpen="False"/>
 
+                <TextBox Text="Время"
+                         Grid.Row="2"
+                         Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
+
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal">
+                    <ComboBox x:Name="hourCB" Width="40"
+                              SelectionChanged="HourCB_SelectionChanged"/>
+                    <TextBox Style="{StaticResource InButtonTB}"
+                             Text=":"
+                             BorderBrush="Transparent"/>
+                    <ComboBox Width="40" x:Name="minuteCB"
+                              SelectionChanged="MinuteCB_SelectionChanged"/>
+                </StackPanel>
 
             </Grid>
         </Border>
