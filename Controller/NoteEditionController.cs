@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Controller
 {
-	class NoteEditionController
+	public class NoteEditionController : ControllerBase
 	{
+		public NoteEditionController(Action<string> notifier) : base(notifier)
+		{ }
 	}
 }
