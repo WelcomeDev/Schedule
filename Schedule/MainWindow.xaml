@@ -31,6 +31,8 @@
 
                 <ListView Grid.Row="1"
                           x:Name="notesListView"
+                          ItemsSource="{Binding DisplayedData}"
+                          SelectionChanged="NotesListView_ItemSelected"
                           BorderThickness="0"
                           Margin="10,4,4,4"/>
 

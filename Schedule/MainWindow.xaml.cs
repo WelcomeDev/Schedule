@@ -1,14 +1,11 @@
 ﻿using Controller;
 using Controller.DataApis;
 using Schedule.GUIs;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace Schedule
 {
@@ -18,64 +15,29 @@ namespace Schedule
 	public partial class MainWindow : Window
 	{
 		private readonly MainController ctrl;
-		readonly List<NoteItem> allViewItems = new List<NoteItem>();
 		private readonly TaskScheduler uiContext;
+
+		private readonly MainWindowData mainWinData;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			ctrl = new MainController(ToDebug);
-
 			uiContext = TaskScheduler.FromCurrentSynchronizationContext();
+
+			ctrl = new MainController(ToDebug);
+			mainWinData = new MainWindowData();
+			DataContext = mainWinData;
 
 			//ассинхронное получение данных и продолжение в главном потоке
 			ctrl.GetDisplayedDataAsync()
-				.ContinueWith(t => InitSource(t.Result),
+				.ContinueWith(t => mainWinData.InitSource(t.Result),
 						uiContext);
 		}
 
 		private void ToDebug(string s)
 		{
 			Debug.WriteLine(s);
-		}
-
-		private void InitSource(IEnumerable<INoteDisplayedData> result)
-		{
-			foreach (var dat in result)
-			{
-				var note = new NoteItem(dat);
-				note.MouseDoubleClick += Note_MouseDoubleClick;
-
-				allViewItems.Add(note);
-			}
-
-			ChangeDisplay();
-		}
-
-		/// <summary>
-		/// Обновление отображения
-		/// </summary>
-		/// <param name="newDisplay">Коллекция записей с данными для нового отображения</param>
-		private void ChangeDisplay(IEnumerable<INoteDisplayedData> newDisplay = null)
-		{
-			if (newDisplay is null)
-			{
-				notesListView.ItemsSource = allViewItems;
-			}
-			else
-			{
-				var res = allViewItems.Where(x => x.NoteData.Equals(newDisplay));
-
-				notesListView.ItemsSource = res;
-			}
-		}
-
-		private void Note_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			var note = sender as NoteItem;
-
-			DisplayNote(note.NoteData);
 		}
 
 		/// <summary>
@@ -97,6 +59,10 @@ namespace Schedule
 			AddNoteFrame.Navigate(null);
 		}
 
+		/// <summary>
+		/// Обработка события со страницы - создание объекта
+		/// </summary>
+		/// <param name="obj"></param>
 		private void Page_ItemCreated(INoteDisplayedData obj)
 		{
 			//если элемент был успешно добавлен запускаем внутренний таск
@@ -105,24 +71,23 @@ namespace Schedule
 				Debug.WriteLine("в главном потоке меняет GUI");
 				//в главном потоке меняет GUI
 				var innerTask = new Task(() =>
-				{
-					NoteItem noteUI = new NoteItem(obj);
-					allViewItems.Add(noteUI);
-					ChangeDisplay();
-					HidePage();
-				},
-										TaskCreationOptions.AttachedToParent);
+							{
+								mainWinData.Add(obj);
+								HidePage();
+							},
+								TaskCreationOptions.AttachedToParent);
 				innerTask.Start(uiContext);
 
 			}, TaskContinuationOptions.NotOnFaulted);
 		}
 
+		/// <summary>
+		/// Обработка события со страницы - удаление объекта
+		/// </summary>
+		/// <param name="obj"></param>
 		private void Page_ItemRemoved(INoteDisplayedData obj)
 		{
-			var itemToBeRemoved = allViewItems.FirstOrDefault(x => x.NoteData.Equals(obj));
-			allViewItems.Remove(itemToBeRemoved);
-			ChangeDisplay();
-
+			mainWinData.Remove(obj);
 			ctrl.Remove(obj);
 		}
 
@@ -137,13 +102,13 @@ namespace Schedule
 			if (first.Equals(last))
 			{
 				ctrl.GetDisplayedDataAsync(first)
-					.ContinueWith(t => ChangeDisplay(t.Result),
+					.ContinueWith(t => mainWinData.DisplayDates(t.Result),
 								uiContext);
 			}
 			else
 			{
 				ctrl.GetDisplayedDataAsync(first, last)
-					.ContinueWith(t => ChangeDisplay(t.Result),
+					.ContinueWith(t => mainWinData.DisplayDates(t.Result),
 								uiContext);
 			}
 
@@ -153,6 +118,20 @@ namespace Schedule
 		{
 			var data = ctrl.AddNewNote();
 			DisplayNote(data);
+		}
+
+		/// <summary>
+		/// Обработка события выбора элемента в листе
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NotesListView_ItemSelected(object sender, RoutedEventArgs e)
+		{
+			if (sender is ListView lv)
+			{
+				var li = lv.SelectedItem as NoteItem;
+				DisplayNote(li?.NoteData);
+			}
 		}
 	}
 }
