@@ -8,10 +8,13 @@
         Title="Расписание" 
         MinHeight="600" MinWidth="1000"
         Icon="pack://application:,,,/Resources/Icons/app_icon.png">
-    <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid Background="{StaticResource MainBackgroundBrush}"
+          x:Name="mainGrid"
+          Focusable="True"
+          MouseDown="MainGrid_MouseDown">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.3*"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>

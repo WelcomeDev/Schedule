@@ -133,5 +133,10 @@ namespace Schedule
 				DisplayNote(li?.NoteData);
 			}
 		}
+
+		private void MainGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			mainGrid.Focus();
+		}
 	}
 }

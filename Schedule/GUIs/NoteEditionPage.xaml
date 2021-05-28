@@ -11,7 +11,7 @@
       d:DesignHeight="450"
       d:Background="{StaticResource MainBackgroundBrush}"
       Title="NoteEditionPage"
-      Width="200">
+      Width="250">
 
     <DockPanel LastChildFill="False">
 
