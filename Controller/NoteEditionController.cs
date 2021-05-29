@@ -29,7 +29,7 @@ namespace Controller
 		/// </summary>
 		/// <param name="timeItem"></param>
 		/// <returns></returns>
-		private string InitTime(int timeItem)
+		public string InitTime(int timeItem)
 		{
 			if (timeItem < 10)
 				return "0" + timeItem.ToString();
@@ -46,6 +46,22 @@ namespace Controller
 			}
 
 			return minutes;
+		}
+
+		public DateTime DateToCorrentFormat(DateTime time)
+		{
+			if (time.Hour < BL.Rules.OpeningHour)
+			{
+				time = time.AddHours(-time.Hour);
+				time = time.AddHours(BL.Rules.OpeningHour);
+			}
+			else if (time.Hour > BL.Rules.ClosingHour)
+			{
+				time = time.AddHours(-time.Hour);
+				time = time.AddHours(BL.Rules.ClosingHour - 1);
+			}
+
+			return time;
 		}
 	}
 }

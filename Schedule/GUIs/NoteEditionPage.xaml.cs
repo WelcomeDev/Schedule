@@ -42,6 +42,10 @@ namespace Schedule.GUIs
 
 			this.noteDisplayedData = noteDisplayedData;
 			DataContext = noteDisplayedData;
+
+			noteDisplayedData.Date = ctrl.DateToCorrentFormat(noteDisplayedData.Date);
+			hourCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Hour);
+			minuteCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Minute);
 		}
 
 		private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -78,19 +82,35 @@ namespace Schedule.GUIs
 		private void HourCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var currentDate = noteDisplayedData.Date;
-			noteDisplayedData.Date.AddHours(-currentDate.Hour); //сбрасываем часы в 0
+			var setDate = CreateDateFrom(currentDate);
 
-			int.TryParse(hourCB.SelectedItem as string, out var hour);	//прибавляем выбранные
-			noteDisplayedData.Date.AddHours(hour);
+			int.TryParse(hourCB.SelectedItem as string, out var hour);  
+			setDate = setDate.AddHours(-currentDate.Hour);	//сбрасываем в 0
+			setDate = setDate.AddHours(hour);   //прибавляем выбранные
+
+			noteDisplayedData.Date = setDate;
+		}
+
+		private DateTime CreateDateFrom(DateTime source)
+		{
+			return new DateTime(source.Year,
+							   source.Month,
+							   source.Day,
+							   source.Hour,
+							   source.Minute,
+							   second: 0);
 		}
 
 		private void MinuteCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var currentDate = noteDisplayedData.Date;
-			noteDisplayedData.Date.AddMinutes(-currentDate.Minute); //сбрасываем минуты в 0
+			var setDate = CreateDateFrom(currentDate);
 
-			int.TryParse(minuteCB.SelectedItem as string, out var minute);  //прибавляем выбранные
-			noteDisplayedData.Date.AddMinutes(minute);
+			int.TryParse(minuteCB.SelectedItem as string, out var minute);
+			setDate = setDate.AddHours(-currentDate.Minute);  //сбрасываем в 0
+			setDate = setDate.AddHours(minute);   //прибавляем выбранные
+
+			noteDisplayedData.Date = setDate;
 		}
 	}
 }
