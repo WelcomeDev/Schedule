@@ -54,6 +54,8 @@ namespace BL
 
 		public const int MaxNameLength = 30;
 
+		public const int MaxInputLength = MaxNameLength;
+
 		private static bool IsNameValid(string input)
 		{
 			input = input.ToLower();

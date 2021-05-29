@@ -31,6 +31,8 @@ namespace Schedule.GUIs
 
 			ctrl = new NoteEditionController(null);
 
+			nameTextBox.MaxLength = phoneTextBox.MaxLength = BL.DataValidation.MaxInputLength;
+
 			hourCB.ItemsSource = ctrl.GetHours();
 			minuteCB.ItemsSource = ctrl.GetMinutes();
 		}
@@ -43,9 +45,12 @@ namespace Schedule.GUIs
 			this.noteDisplayedData = noteDisplayedData;
 			DataContext = noteDisplayedData;
 
-			noteDisplayedData.Date = ctrl.TimeToCorrentFormat(noteDisplayedData.Date);
-			hourCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Hour);
-			minuteCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Minute);
+			if (isOnCreation == false)
+			{
+				noteDisplayedData.Date = ctrl.TimeToCorrectFormat(noteDisplayedData.Date);
+				hourCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Hour);
+				minuteCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Minute);
+			}
 		}
 
 		private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -57,12 +62,14 @@ namespace Schedule.GUIs
 
 				EndOfInput?.Invoke();
 			}
-			//TODO: выделить неверный ввод
+
 			ctrl.Notify(InvalidDataMessage);
 		}
 
 		private bool IsValidated()
-			=> !Validator.GetHasError(nameTextBox) &&
+			=> !string.IsNullOrWhiteSpace(nameTextBox.Text) &&
+				!string.IsNullOrWhiteSpace(phoneTextBox.Text) &&
+				!Validator.GetHasError(nameTextBox) &&
 				!Validator.GetHasError(phoneTextBox) &&
 				hourCB.SelectedItem != null &&
 				minuteCB.SelectedItem != null &&
@@ -84,8 +91,8 @@ namespace Schedule.GUIs
 			var currentDate = noteDisplayedData.Date;
 			var setDate = CreateDateFrom(currentDate);
 
-			int.TryParse(hourCB.SelectedItem as string, out var hour);  
-			setDate = setDate.AddHours(-currentDate.Hour);	//сбрасываем в 0
+			int.TryParse(hourCB.SelectedItem as string, out var hour);
+			setDate = setDate.AddHours(-currentDate.Hour);  //сбрасываем в 0
 			setDate = setDate.AddHours(hour);   //прибавляем выбранные
 
 			noteDisplayedData.Date = setDate;

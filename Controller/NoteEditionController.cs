@@ -61,7 +61,7 @@ namespace Controller
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		public DateTime TimeToCorrentFormat(DateTime time)
+		public DateTime TimeToCorrectFormat(DateTime time)
 		{
 			if (time.Hour < BL.Rules.OpeningHour)
 			{
