@@ -23,8 +23,10 @@
 
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="White"/>
 
+    <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#248F40"/>
     <SolidColorBrush x:Key="MainFontBrush" Color="#043A6B"/>
     <SolidColorBrush x:Key="PreActiveFontBrush" Color="#26537C"/>
+    <SolidColorBrush x:Key="PreActiveDarkFontBrush" Color="#043A6B"/>
     <SolidColorBrush x:Key="InactiveBorderBrush" Color="#1E786C"/>
     <SolidColorBrush x:Key="ActiveBorderBrush" Color="#00685A"/>
 

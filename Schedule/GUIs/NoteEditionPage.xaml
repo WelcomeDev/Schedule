@@ -47,13 +47,18 @@
                 DockPanel.Dock="Top"
                 Height="Auto">
             <Grid>
+                <Grid.Resources>
+                    <Style x:Key="TimeComboBox" TargetType="ComboBox" BasedOn="{StaticResource RoundedComboBox}">
+                        <Setter Property="Width" Value="60"/>
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
+                
 
                 <TextBox Text="Дата"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
@@ -70,13 +75,15 @@
 
                 <StackPanel Grid.Row="3"
                             Orientation="Horizontal">
-                    <ComboBox x:Name="hourCB" Width="40"
-                              SelectedItem="{Binding Date.Hour, Mode=TwoWay}"/>
+                    <ComboBox x:Name="hourCB"
+                               Style="{StaticResource TimeComboBox}"
+                              SelectionChanged="HourCB_SelectionChanged"/>
                     <TextBox Style="{StaticResource InButtonTB}"
                              Text=":"
                              BorderBrush="Transparent"/>
-                    <ComboBox Width="40" x:Name="minuteCB"
-                              SelectedItem="{Binding Date.Minute, Mode=TwoWay}"/>
+                    <ComboBox x:Name="minuteCB"
+                              Style="{StaticResource TimeComboBox}"
+                              SelectionChanged="MinuteCB_SelectionChanged"/>
                 </StackPanel>
 
             </Grid>

@@ -74,5 +74,23 @@ namespace Schedule.GUIs
 		{
 			ctrl.Notify(e.Error.ErrorContent.ToString());
 		}
+
+		private void HourCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var currentDate = noteDisplayedData.Date;
+			noteDisplayedData.Date.AddHours(-currentDate.Hour); //сбрасываем часы в 0
+
+			int.TryParse(hourCB.SelectedItem as string, out var hour);	//прибавляем выбранные
+			noteDisplayedData.Date.AddHours(hour);
+		}
+
+		private void MinuteCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var currentDate = noteDisplayedData.Date;
+			noteDisplayedData.Date.AddMinutes(-currentDate.Minute); //сбрасываем минуты в 0
+
+			int.TryParse(minuteCB.SelectedItem as string, out var minute);  //прибавляем выбранные
+			noteDisplayedData.Date.AddMinutes(minute);
+		}
 	}
 }

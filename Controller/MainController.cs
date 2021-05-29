@@ -73,6 +73,7 @@ namespace Controller
 			Save();
 		}
 
+		//TODO: add DatePicker Template
 		//SOLVE: fill min and hour CB
 		//SOLVE: binding dates to TextBox
 		//SOLVE: check save
