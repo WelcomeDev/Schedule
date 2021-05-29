@@ -29,7 +29,7 @@ namespace Schedule.GUIs
 		{
 			InitializeComponent();
 
-			ctrl = new NoteEditionController(null);
+			ctrl = new NoteEditionController(Notifier.NotifierUI.GetInstance());
 
 			nameTextBox.MaxLength = phoneTextBox.MaxLength = BL.DataValidation.MaxInputLength;
 
@@ -62,8 +62,10 @@ namespace Schedule.GUIs
 
 				EndOfInput?.Invoke();
 			}
-
-			ctrl.Notify(InvalidDataMessage);
+			else
+			{
+				ctrl.Notify(InvalidDataMessage);
+			}
 		}
 
 		private bool IsValidated()

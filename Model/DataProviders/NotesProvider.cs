@@ -53,7 +53,8 @@ namespace Model.DataProviders
 
 		public void Delete(CustomerNote instance)
 		{
-			notes?.Remove(instance);
+			if (notes != null)
+				notes.Remove(instance);
 		}
 
 		/// <summary>

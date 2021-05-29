@@ -14,7 +14,7 @@ namespace Controller
 		private const string DBSuccessfullySyncedMessage = "Успешно синхронизировано";
 		private const string DBSynceErrorMessage = "Ошибка синхронизиронизации";
 
-		public MainController(Action<string> notifier) : base(notifier)
+		public MainController(INotify notifier) : base(notifier)
 		{
 			dataProvider = NotesProvider.GetInstance();
 			adapter = new Adapter();
@@ -66,7 +66,9 @@ namespace Controller
 
 		public void Remove(INoteDisplayedData obj)
 		{
-			dataProvider.Delete(obj as CustomerNote);
+			var note = adapter.ConvertToNote(obj) as CustomerNote;
+			dataProvider.Delete(note);
+			reserve.Remove(note);
 
 			Save();
 		}
@@ -83,13 +85,14 @@ namespace Controller
 		/// <returns>Может вернуть Task.Status = Faulted, если возникла ошибка</returns>
 		public async Task Add(INoteDisplayedData obj)
 		{
-			var note = adapter.ConvertToNote(obj);
+			var note = adapter.ConvertToNote(obj) as CustomerNote;
 
-			var addTask = dataProvider.AddAsync(note as CustomerNote);
+			var addTask = dataProvider.AddAsync(note);
 
 			await addTask.ContinueWith(t =>
 							{
 								Notify(OnSuccessfulAdditionMessage);
+								reserve.Add(note);
 								Save();
 							},
 							TaskContinuationOptions.OnlyOnRanToCompletion);

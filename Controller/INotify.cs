@@ -1,9 +1,9 @@
 ﻿/// <summary>
 /// Интерфейс оповещения
 /// </summary>
-namespace Schedule.Notifier
+namespace Controller
 {
-	internal interface INotify
+	public interface INotify
 	{
 		void Notify(string message);
 	}

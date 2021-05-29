@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using Controller;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -11,6 +12,8 @@ namespace Schedule.Notifier
 	{
 		private static readonly NotifierUI instance = new NotifierUI();
 
+		private readonly object locker = new object();
+
 		private NotifierUI()
 		{
 			InitializeComponent();
@@ -20,22 +23,37 @@ namespace Schedule.Notifier
 
 		public void Notify(string message)
 		{
-			messageTextBox.Opacity = 1;
-			messageTextBox.Text = message;
-			Task.Run(() => HideMessage());
+			lock (locker)
+			{
+				try
+				{
+					//Получаем контекст главного потока для исполнения общращения к GUI
+					Dispatcher.Invoke(() =>
+					{
+						messageTextBox.Opacity = 1;
+						messageTextBox.Text = message;
+						Task.Run(() => HideMessage());
+					});
+				}
+				catch
+				{ }
+			}
 		}
 
 		private const double OpacityStep = 0.1;
-		private const int OpacitySleepMs = 50;
-		private const int WaitSleepMs = 100;
+		private const int OpacitySleepMs = 250;
+		private const int WaitSleepMs = 1000;
 
 		private void HideMessage()
 		{
-			Thread.Sleep(WaitSleepMs);
-			for (int i = 1; i >= 0; i--)
+			lock (locker)
 			{
-				Dispatcher?.Invoke(() => messageTextBox.Opacity = i * OpacityStep);
-				Thread.Sleep(OpacitySleepMs);
+				Thread.Sleep(WaitSleepMs);
+				for (double i = 1; i >= 0; i -= OpacityStep)
+				{
+					Dispatcher?.Invoke(() => messageTextBox.Opacity = i);
+					Thread.Sleep(OpacitySleepMs);
+				}
 			}
 		}
 	}

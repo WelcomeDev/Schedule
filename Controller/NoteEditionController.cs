@@ -9,7 +9,7 @@ namespace Controller
 		private const int MinuteStep = 15;
 		private const int MaxMinute = 60;
 
-		public NoteEditionController(Action<string> notifier) : base(notifier)
+		public NoteEditionController(INotify notifier) : base(notifier)
 		{ }
 
 		/// <summary>

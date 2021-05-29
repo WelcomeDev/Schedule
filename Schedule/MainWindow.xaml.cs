@@ -29,9 +29,10 @@ namespace Schedule
 
 			var notifier = Notifier.NotifierUI.GetInstance();
 			Panel.SetZIndex(notifier, NotifierZIndex);
+			Grid.SetColumnSpan(notifier, 2);
 			mainGrid.Children.Add(notifier);
 
-			ctrl = new MainController(ToDebug);
+			ctrl = new MainController(notifier);
 			mainWinData = new MainWindowData();
 			DataContext = mainWinData;
 
@@ -44,11 +45,6 @@ namespace Schedule
 							.ContinueWith(t => mainWinData.DisplayDates(t.Result, DateTime.Today));
 					}
 				,uiContext);
-		}
-
-		private void ToDebug(string s)
-		{
-			Debug.WriteLine(s);
 		}
 
 		/// <summary>
