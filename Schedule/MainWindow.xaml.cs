@@ -30,11 +30,15 @@ namespace Schedule
 			mainWinData = new MainWindowData();
 			DataContext = mainWinData;
 
-			mainWinData.SetDate(DateTime.Today);
 			//ассинхронное получение данных и продолжение в главном потоке
 			ctrl.GetDisplayedDataAsync()
-				.ContinueWith(t => mainWinData.InitSource(t.Result),
-						uiContext);
+				.ContinueWith(t => 
+					{
+						mainWinData.InitSource(t.Result);
+						ctrl.GetDisplayedDataAsync(DateTime.Today)
+							.ContinueWith(t => mainWinData.DisplayDates(t.Result, DateTime.Today));
+					}
+				,uiContext);
 		}
 
 		private void ToDebug(string s)
@@ -103,16 +107,14 @@ namespace Schedule
 
 			if (first.Equals(last))
 			{
-				mainWinData.SetDate(first);
 				ctrl.GetDisplayedDataAsync(first)
-					.ContinueWith(t => mainWinData.DisplayDates(t.Result),
+					.ContinueWith(t => mainWinData.DisplayDates(t.Result,first),
 								uiContext);
 			}
 			else
 			{
-				mainWinData.SetDates(first, last);
 				ctrl.GetDisplayedDataAsync(first, last)
-					.ContinueWith(t => mainWinData.DisplayDates(t.Result),
+					.ContinueWith(t => mainWinData.DisplayDates(t.Result,first, last),
 								uiContext);
 			}
 

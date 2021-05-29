@@ -71,7 +71,7 @@ namespace Schedule
 				DisplayedData.Add(noteUI);
 			}
 
-			public void DisplayDates(IEnumerable<INoteDisplayedData> newDisplay)
+			private void InitDates(IEnumerable<INoteDisplayedData> newDisplay)
 			{
 				var res = allViewItems.Where(x => newDisplay.Contains(x.NoteData));
 
@@ -82,22 +82,24 @@ namespace Schedule
 				}
 			}
 
+			public void DisplayDates(IEnumerable<INoteDisplayedData> newDisplay, DateTime date)
+			{
+				DatesRange = date.ToString(DateFormat);
+				InitDates(newDisplay);
+			}
+
+			public void DisplayDates(IEnumerable<INoteDisplayedData> newDisplay, DateTime first, DateTime last)
+			{
+				DatesRange = first.ToString(DateFormat) + "-" + last.ToString(DateFormat);
+				InitDates(newDisplay);
+			}
+
 			private void NotifyPropertyChanged(string propName)
 			{
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 			}
 
 			private const string DateFormat = "dd MMMM";
-
-			internal void SetDate(DateTime first)
-			{
-				DatesRange = first.ToString(DateFormat);
-			}
-
-			internal void SetDates(DateTime first, DateTime last)
-			{
-				DatesRange = first.ToString(DateFormat) + "-" + last.ToString(DateFormat);
-			}
 		}
 	}
 }

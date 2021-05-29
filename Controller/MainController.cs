@@ -72,7 +72,6 @@ namespace Controller
 		}
 
 		//SOLVE: make notificator
-		//SOLVE: chars limit in input!
 		//TODO: add DatePicker Template
 		//TODO: потокобезопасность в MainWindowData
 		//SOLVE: при addAsync кидается Exception - нужно, чтобы Task просто умирал
