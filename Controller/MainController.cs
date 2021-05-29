@@ -1,4 +1,5 @@
 ﻿using Controller.DataApis;
+using Controller.Helper;
 using Model;
 using Model.DataProviders;
 using System;
@@ -25,30 +26,27 @@ namespace Controller
 		/// <returns></returns>
 		public async Task<IEnumerable<INoteDisplayedData>> GetDisplayedDataAsync()
 		{
-			if (res is null)
-				res = await dataProvider.GetAllAsync();
+			await Task.Run(() => Init());
 
-			return res.Select(x => adapter.ConvertToNoteData(x));
+			return reserve.Select(x => adapter.ConvertToNoteData(x));
 		}
 
 		public async Task<IEnumerable<INoteDisplayedData>> GetDisplayedDataAsync(DateTime date)
 		{
-			if (res is null)
-				res = await dataProvider.GetAllAsync();
+			await Task.Run(() => Init());
 
-			return res.Where(x => x.Date == date)
+			return reserve.Where(x => x.Date.EqualDates(date))
 						.Select(x => adapter.ConvertToNoteData(x));
 		}
 
 		public async Task<IEnumerable<INoteDisplayedData>> GetDisplayedDataAsync(DateTime initialDate, DateTime finalDate)
 		{
-			if (res is null)
-				res = await dataProvider.GetAllAsync();
+			await Task.Run(() => Init());
 
-			DatesToCorrectComparableFormat(ref initialDate, ref finalDate);
+			finalDate = finalDate.ToEndOfTheDay();
 
-			return res.Where(x => x.Date >= initialDate && x.Date <= finalDate)
-						.Select(x => adapter.ConvertToNoteData(x));
+			return reserve.Where(x => x.Date >= initialDate && x.Date <= finalDate)
+				.Select(x => adapter.ConvertToNoteData(x));
 		}
 
 		public INoteDisplayedData AddNewNote()
@@ -74,9 +72,6 @@ namespace Controller
 		}
 
 		//TODO: add DatePicker Template
-		//SOLVE: fill min and hour CB
-		//SOLVE: binding dates to TextBox
-		//SOLVE: check save
 		//SOLVE: make notificator
 		//SOLVE: chars limit in input!
 		//TODO: потокобезопасность в MainWindowData

@@ -73,7 +73,7 @@ namespace Schedule
 
 			public void DisplayDates(IEnumerable<INoteDisplayedData> newDisplay)
 			{
-				var res = allViewItems.Where(x => x.NoteData.Equals(newDisplay));
+				var res = allViewItems.Where(x => newDisplay.Contains(x.NoteData));
 
 				DisplayedData.Clear();
 				foreach (var item in res)
