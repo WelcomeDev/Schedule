@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿/// <summary>
+/// Интерфейс оповещения
+/// </summary>
 namespace Schedule.Notifier
 {
 	internal interface INotify
 	{
+		void Notify(string message);
 	}
 }

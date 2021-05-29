@@ -1,26 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Schedule.Notifier
 {
 	/// <summary>
-	/// Interaction logic for NotifierUI.xaml
+	/// Оповещение пользователя через GUI
 	/// </summary>
-	public partial class NotifierUI : UserControl
+	public partial class NotifierUI : UserControl, INotify
 	{
-		public NotifierUI()
+		private static readonly NotifierUI instance = new NotifierUI();
+
+		private NotifierUI()
 		{
 			InitializeComponent();
+		}
+
+		internal static NotifierUI GetInstance() => instance;
+
+		public void Notify(string message)
+		{
+			messageTextBox.Opacity = 1;
+			messageTextBox.Text = message;
+			Task.Run(() => HideMessage());
+		}
+
+		private const double OpacityStep = 0.1;
+		private const int OpacitySleepMs = 50;
+		private const int WaitSleepMs = 100;
+
+		private void HideMessage()
+		{
+			Thread.Sleep(WaitSleepMs);
+			for (int i = 1; i >= 0; i--)
+			{
+				Dispatcher?.Invoke(() => messageTextBox.Opacity = i * OpacityStep);
+				Thread.Sleep(OpacitySleepMs);
+			}
 		}
 	}
 }

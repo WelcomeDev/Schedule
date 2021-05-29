@@ -15,6 +15,7 @@ namespace Schedule
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private const int NotifierZIndex = 1000;
 		private readonly MainController ctrl;
 		private readonly TaskScheduler uiContext;
 
@@ -25,6 +26,10 @@ namespace Schedule
 			InitializeComponent();
 
 			uiContext = TaskScheduler.FromCurrentSynchronizationContext();
+
+			var notifier = Notifier.NotifierUI.GetInstance();
+			Panel.SetZIndex(notifier, NotifierZIndex);
+			mainGrid.Children.Add(notifier);
 
 			ctrl = new MainController(ToDebug);
 			mainWinData = new MainWindowData();
