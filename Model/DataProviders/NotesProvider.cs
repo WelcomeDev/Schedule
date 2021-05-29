@@ -21,10 +21,15 @@ namespace Model.DataProviders
 
 		private NotesProvider()
 		{
-			jsonSerializer = new DataContractJsonSerializer(typeof(CustomerNote));
+			jsonSerializer = new DataContractJsonSerializer(typeof(List<CustomerNote>));
 
 			var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			FullName = Path.Combine(documentsPath, FolderName, FileName);
+
+			documentsPath = Path.Combine(documentsPath, FolderName);
+			if (Directory.Exists(documentsPath) == false)
+				Directory.CreateDirectory(documentsPath);
+
+			FullName = Path.Combine(documentsPath, FileName);
 		}
 
 		/// <summary>
@@ -35,6 +40,9 @@ namespace Model.DataProviders
 		/// <returns></returns>
 		public async Task AddAsync(CustomerNote instance)
 		{
+			if (instance is null)
+				throw new ArgumentNullException(nameof(instance));
+
 			if (notes is null)
 			{
 				await GetAllAsync();
@@ -43,20 +51,10 @@ namespace Model.DataProviders
 			notes.Add(instance);
 		}
 
-		/// <summary>
-		/// Удаление объекта
-		/// Вызывается перед этим <see cref="GetAllAsync"/>, если не был вызван ранее
-		/// </summary>
-		/// <param name="instance"></param>
-		/// <returns></returns>
-		public async Task Delete(CustomerNote instance)
+		public void Delete(CustomerNote instance)
 		{
-			if (notes is null)
-			{
-				await GetAllAsync();
-			}
-
-			notes.Remove(instance);
+			if (notes != null)
+				notes.Remove(instance);
 		}
 
 		/// <summary>

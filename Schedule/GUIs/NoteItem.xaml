@@ -9,11 +9,19 @@
              d:DataContext="{d:DesignInstance Type=context:INoteDisplayedData}"
              mc:Ignorable="d" 
              d:Background="White"
-             d:DesignHeight="110" d:DesignWidth="400"
-             d:BorderBrush="{StaticResource InactiveBorderBrush}"
-             MaxHeight="110" MinHeight="60"
-             Height="110"
+             d:DesignHeight="160" d:DesignWidth="400"
+             BorderBrush="{StaticResource InactiveBorderBrush}"
+             MaxHeight="160" MinHeight="60"
+             Height="160"
              MinWidth="150">
+
+    <UserControl.Resources>
+        <Style x:Key="ReadOnlyDataDislpay" TargetType="TextBox" BasedOn="{StaticResource InputTextBox}">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -21,8 +29,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Ellipse Width="40"
-                 Height="40"
+        <Ellipse Width="30"
+                 Height="30"
                  StrokeThickness="2"
                  Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"
                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -33,11 +41,8 @@
                 BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"
                 BorderThickness="1"
                 Padding="4">
-            <!--"{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderThickness}"-->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
@@ -45,54 +50,29 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}" 
                          Text="Имя: "/>
                 <TextBox Grid.Column="1" 
-                         Style="{StaticResource InputTextBox}" 
-                         BorderThickness="1" >
-                    <TextBox.Text>
-                        <Binding Path="Name" Mode="TwoWay" 
-                                 UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <val:NameValidation/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-
-                <TextBox Grid.Column="2"
-                         Style="{StaticResource ReadOnlyUnderlinedTextBox}"
-                         Text="Дата: "/>
-                <TextBox Grid.Column="3"
-                         Style="{StaticResource InputTextBox}">
-                    <TextBox.Text>
-                        <Binding Path="Date" Mode="TwoWay"
-                                 UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <val:DateValidation/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                         Style="{StaticResource ReadOnlyDataDislpay}" 
+                         Text="{Binding Name, Mode=OneWay}"/>
 
                 <TextBox Grid.Row="1"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"
-                         Text="Телефон: "/>
+                         Text="Дата: "/>
+                <TextBox Grid.Column="1"
+                         Grid.Row="1"
+                         Style="{StaticResource ReadOnlyDataDislpay}"
+                         Text="{Binding Date, Mode=OneWay, StringFormat='dddd, dd MMMM HH:mm'}"/>
 
-                <TextBox Grid.Column="1" Grid.Row="1"
-                         Grid.ColumnSpan="3"
-                         Style="{StaticResource InputTextBox}">
-                    <TextBox.Text>
-                        <Binding Path="Phone" Mode="TwoWay"
-                                 UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <val:PhoneValidation/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                <TextBox Grid.Row="2"
+                         Style="{StaticResource ReadOnlyUnderlinedTextBox}"
+                         Text="Телефон: "/>
+                <TextBox Grid.Column="1" Grid.Row="2"
+                         Style="{StaticResource ReadOnlyDataDislpay}"
+                         Text="{Binding Phone, Mode=OneWay}"/>
 
             </Grid>
         </Border>

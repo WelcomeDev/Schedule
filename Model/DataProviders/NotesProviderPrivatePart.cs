@@ -28,7 +28,12 @@ namespace Model.DataProviders
 				{
 					notes = jsonSerializer.ReadObject(sf) as List<CustomerNote>;
 				}
-				catch { }
+				catch
+				{
+					sf.Close();
+					using var s = File.Create(FullName);
+				}
+
 			}
 
 			return notes;
@@ -40,12 +45,7 @@ namespace Model.DataProviders
 
 			lock (locker)
 			{
-				try
-				{
-					jsonSerializer.WriteObject(sf, notes);
-				}
-				catch
-				{ }
+				jsonSerializer.WriteObject(sf, notes);
 			}
 		}
 	}

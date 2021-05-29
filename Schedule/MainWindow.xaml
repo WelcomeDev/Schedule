@@ -4,17 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schedule"
+        xmlns:noti="clr-namespace:Schedule.Notifier"
         mc:Ignorable="d"
         Title="Расписание" 
-        MinHeight="600" MinWidth="1000">
-    <Grid Background="{StaticResource MainBackgroundBrush}">
+        MinHeight="600" MinWidth="1000"
+        Icon="pack://application:,,,/Resources/Icons/app_icon.png"
+        Closing="Window_Closing">
+    <Grid Background="{StaticResource MainBackgroundBrush}"
+          x:Name="mainGrid"
+          Focusable="True"
+          MouseDown="MainGrid_MouseDown">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.3*"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
+
         <Border Grid.Column="0"
                 Style="{StaticResource RightUnderlinedOuterBorder}">
             <Grid>
@@ -26,11 +32,12 @@
 
                 <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}"
                          TextAlignment="Center"
-                         
-                         Text="17.27.2741-98.26.4647"/>
+                         Text="{Binding DatesRange, Mode=OneWay}"/>
 
                 <ListView Grid.Row="1"
                           x:Name="notesListView"
+                          ItemsSource="{Binding DisplayedData}"
+                          SelectionChanged="NotesListView_ItemSelected"
                           BorderThickness="0"
                           Margin="10,4,4,4"/>
 
@@ -40,19 +47,22 @@
         <Border Grid.Column="2"
                 Width="Auto"
                 Style="{StaticResource UnderlinedLeftOuterBorder}">
-            <Frame Name="AddNoteFrame"/>
+            <Frame Name="AddNoteFrame"
+                   NavigationUIVisibility="Hidden"/>
         </Border>
 
         <DockPanel Grid.Column="1"
                   HorizontalAlignment="Center">
-            
+
             <Button DockPanel.Dock="Right"
                     x:Name="AddNewNoteButton"
-                    Background="Red" 
                     Margin="50,0,0,0"
-                    VerticalAlignment="Top" Width="50" Height="50"
-                    Click="AddNewNoteButton_Click"/>
-            
+                    VerticalAlignment="Top"
+                    Style="{StaticResource AddRoundButton}"
+                    Click="AddNewNoteButton_Click">
+                <Image Source="pack://application:,,,/Resources/Icons/add_icon.png"/>
+            </Button>
+
             <Calendar RenderTransformOrigin="0.75 0"
                       SelectionMode="MultipleRange"
                       SelectedDatesChanged="Calendar_SelectedDatesChanged">
@@ -60,10 +70,10 @@
                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                 </Calendar.RenderTransform>
             </Calendar>
-            
+
         </DockPanel>
-        
-        
+
+
 
     </Grid>
 </Window>

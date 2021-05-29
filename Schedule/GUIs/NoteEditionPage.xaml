@@ -8,9 +8,10 @@
       xmlns:val="clr-namespace:Schedule.Validation"
       d:DataContext="{d:DesignInstance Type=data:INoteDisplayedData}"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="150"
+      d:DesignHeight="450"
       d:Background="{StaticResource MainBackgroundBrush}"
-      Title="NoteEditionPage">
+      Title="NoteEditionPage"
+      Width="250">
 
     <DockPanel LastChildFill="False">
 
@@ -27,7 +28,9 @@
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
 
                 <TextBox Style="{StaticResource InputTextBox}"
-                         Grid.Row="1">
+                         Grid.Row="1"
+                         x:Name="nameTextBox"
+                         Validation.Error="ValidationError_Invoke">
                     <TextBox.Text>
                         <Binding Path="Name" Mode="TwoWay"
                                  UpdateSourceTrigger="PropertyChanged">
@@ -44,19 +47,44 @@
                 DockPanel.Dock="Top"
                 Height="Auto">
             <Grid>
+                <Grid.Resources>
+                    <Style x:Key="TimeComboBox" TargetType="ComboBox" BasedOn="{StaticResource RoundedComboBox}">
+                        <Setter Property="Width" Value="60"/>
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
+                
 
                 <TextBox Text="Дата"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
                 
                 <DatePicker Grid.Row="1"
+                            x:Name="dateSelector"
                             SelectedDateFormat="Short"
+                            SelectedDate="{Binding Date, Mode=TwoWay}"
                             IsDropDownOpen="False"/>
 
+                <TextBox Text="Время"
+                         Grid.Row="2"
+                         Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
+
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal">
+                    <ComboBox x:Name="hourCB"
+                               Style="{StaticResource TimeComboBox}"
+                              SelectionChanged="HourCB_SelectionChanged"/>
+                    <TextBox Style="{StaticResource InButtonTB}"
+                             Text=":"
+                             BorderBrush="Transparent"/>
+                    <ComboBox x:Name="minuteCB"
+                              Style="{StaticResource TimeComboBox}"
+                              SelectionChanged="MinuteCB_SelectionChanged"/>
+                </StackPanel>
 
             </Grid>
         </Border>
@@ -74,7 +102,9 @@
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"/>
 
                 <TextBox Style="{StaticResource InputTextBox}"
-                         Grid.Row="1">
+                         Grid.Row="1"
+                         Name="phoneTextBox"
+                         Validation.Error="ValidationError_Invoke">
                     <TextBox.Text>
                         <Binding Path="Phone" Mode="TwoWay"
                                  UpdateSourceTrigger="PropertyChanged">
@@ -87,17 +117,39 @@
             </Grid>
         </Border>
 
-        <Border Style="{StaticResource UnderlinedInnerBorder}"
+        <Border Style="{StaticResource TopUnderlinedInnerBorder}"
                 DockPanel.Dock="Bottom"
                 Height="Auto">
             <DockPanel LastChildFill="False">
+                <DockPanel.Resources>
+                    <Style x:Key="RemoveButton" TargetType="Button" 
+                                                BasedOn="{StaticResource AddRoundButton}">
+                        <Setter Property="BorderBrush" Value="{StaticResource DangerousBrush}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource OnActiveDangerousBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DockPanel.Resources>
+
                 <Button x:Name="okButton"
+                        Click="OkButton_Click"
                         DockPanel.Dock="Left"
-                        Background="Red" Height="50" Width="50"/>
-                
+                        Style="{StaticResource AddRoundButton}">
+                    <Image Source="pack://application:,,,/Resources/Icons/save_icon.png"/>
+                </Button>
+
                 <Button x:Name="removeButton"
+                        Click="RemoveButton_Click"
                         DockPanel.Dock="Right"
-                        Background="Red" Height="50" Width="50"/>
+                        Style="{StaticResource RemoveButton}">
+                    <Image Source="pack://application:,,,/Resources/Icons/remove_icon.png"/>
+                </Button>
+                
             </DockPanel>
         </Border>
 

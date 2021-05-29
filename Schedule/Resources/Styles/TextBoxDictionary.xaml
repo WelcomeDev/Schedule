@@ -38,7 +38,7 @@
                             <Setter Property="BorderBrush" Value="{StaticResource ActiveBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
-                            <Setter Property="BorderBrush" Value="{StaticResource InvalidDataBrush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource DangerousBrush}"/>
                             <Setter Property="ToolTip" 
                                     Value="{Binding RelativeSource={x:Static RelativeSource.Self},
                                             Path=(Validation.Errors)/ErrorContent}"/>
@@ -51,7 +51,7 @@
 
     <ControlTemplate x:Key="ValidationTemplate">
         <DockPanel VerticalAlignment="Center" Margin="5">
-            <TextBlock Foreground="{StaticResource InvalidDataBrush}" FontSize="30">!</TextBlock>
+            <TextBlock Foreground="{StaticResource DangerousBrush}" FontSize="30">!</TextBlock>
             <AdornedElementPlaceholder/>
         </DockPanel>
     </ControlTemplate>

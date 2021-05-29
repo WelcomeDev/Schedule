@@ -22,8 +22,7 @@ namespace Model.DataProviders
 		/// Удаление
 		/// </summary>
 		/// <param name="instance">объект для удаления</param>
-		/// <returns>Задача асинхронной операции</returns>
-		Task Delete(TType instance);
+		void Delete(TType instance);
 
 		/// <summary>
 		/// Получить по id

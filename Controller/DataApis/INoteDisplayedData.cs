@@ -1,8 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Controller.DataApis
 {
-	public interface INoteDisplayedData
+	/// <summary>
+	/// Интерфейс для связи Model и View, содержит отображаемые данные <see cref="CustomerNote"/>
+	/// </summary>
+	public interface INoteDisplayedData : INotifyPropertyChanged, IEquatable<INoteDisplayedData>
 	{
 		public string Name { get; set; }
 

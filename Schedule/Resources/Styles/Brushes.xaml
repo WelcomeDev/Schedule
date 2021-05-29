@@ -17,12 +17,16 @@
         <GradientStop Color="#BF6B30" Offset="1"/>
     </RadialGradientBrush>
 
-    <SolidColorBrush x:Key="InvalidDataBrush" Color="#e63946"/>
+    <SolidColorBrush x:Key="DangerousBrush" Color="#e63946"/>
+    <SolidColorBrush x:Key="OnActiveDangerousBrush" Color="#BF2430"/>
+
 
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="White"/>
 
+    <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#248F40"/>
     <SolidColorBrush x:Key="MainFontBrush" Color="#043A6B"/>
     <SolidColorBrush x:Key="PreActiveFontBrush" Color="#26537C"/>
+    <SolidColorBrush x:Key="PreActiveDarkFontBrush" Color="#043A6B"/>
     <SolidColorBrush x:Key="InactiveBorderBrush" Color="#1E786C"/>
     <SolidColorBrush x:Key="ActiveBorderBrush" Color="#00685A"/>
 

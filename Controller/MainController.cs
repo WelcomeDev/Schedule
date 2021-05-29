@@ -1,4 +1,5 @@
 ﻿using Controller.DataApis;
+using Controller.Helper;
 using Model;
 using Model.DataProviders;
 using System;
@@ -8,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace Controller
 {
-	public class MainController
+	public partial class MainController : ControllerBase
 	{
-		private readonly NotesProvider dataProvider;
-		private readonly Adapter adapter;
+		private const string DBSuccessfullySyncedMessage = "Успешно синхронизировано";
+		private const string DBSynceErrorMessage = "Ошибка синхронизиронизации";
 
-		private IEnumerable<CustomerNote> res;
-
-		public MainController(Action<string> notifier)
+		public MainController(INotify notifier) : base(notifier)
 		{
 			dataProvider = NotesProvider.GetInstance();
 			adapter = new Adapter();
@@ -27,52 +26,84 @@ namespace Controller
 		/// <returns></returns>
 		public async Task<IEnumerable<INoteDisplayedData>> GetDisplayedDataAsync()
 		{
-			if (res is null)
-				res = await dataProvider.GetAllAsync();
+			await Task.Run(() => Init());
 
-			return res.Select(x => adapter.ConvertToNoteData(x));
+			return reserve.Select(x => adapter.ConvertToNoteData(x));
 		}
 
 		public async Task<IEnumerable<INoteDisplayedData>> GetDisplayedDataAsync(DateTime date)
 		{
-			if (res is null)
-				res = await dataProvider.GetAllAsync();
+			await Task.Run(() => Init());
 
-			return res.Where(x => x.Date == date)
+			return reserve.Where(x => x.Date.EqualDates(date))
 						.Select(x => adapter.ConvertToNoteData(x));
 		}
 
 		public async Task<IEnumerable<INoteDisplayedData>> GetDisplayedDataAsync(DateTime initialDate, DateTime finalDate)
 		{
-			if (res is null)
-				res = await dataProvider.GetAllAsync();
+			await Task.Run(() => Init());
 
-			DatesToCorrectComparableFormat(ref initialDate, ref finalDate);
+			finalDate = finalDate.ToEndOfTheDay();
 
-			return res.Where(x => x.Date >= initialDate && x.Date <= finalDate)
-						.Select(x => adapter.ConvertToNoteData(x));
+			return reserve.Where(x => x.Date >= initialDate && x.Date <= finalDate)
+				.Select(x => adapter.ConvertToNoteData(x));
 		}
 
-
 		public INoteDisplayedData AddNewNote()
-			=>  new NoteDisplayedData(new CustomerNote(null, null, DateTime.Today));
+			=> new NoteDisplayedData(new CustomerNote(null, null, DateTime.Today));
 
-		private void DatesToCorrectComparableFormat(ref DateTime initialDate, ref DateTime finalDate)
+
+		public void Save()
 		{
-			//в начало суток
-			initialDate.AddHours(-initialDate.Hour)
-					.AddSeconds(-initialDate.Second)
-					.AddMinutes(-initialDate.Minute);
+			var saveTask = dataProvider.SaveAsync();
 
-			//в самый конец суток
-			finalDate.AddHours(24 - finalDate.Hour)
-					.AddSeconds(59 - finalDate.Second)
-					.AddMinutes(59 - finalDate.Minute);
+			saveTask.ContinueWith(t => Notify(DBSuccessfullySyncedMessage),
+				TaskContinuationOptions.OnlyOnRanToCompletion);
+
+			saveTask.ContinueWith(t => Notify(DBSynceErrorMessage),
+				TaskContinuationOptions.OnlyOnFaulted);
 		}
 
 		public void Remove(INoteDisplayedData obj)
 		{
-			throw new NotImplementedException();
+			var note = adapter.ConvertToNote(obj) as CustomerNote;
+			dataProvider.Delete(note);
+			reserve.Remove(note);
+
+			Save();
+		}
+
+		//SOLVE: make notificator
+		//TODO: add DatePicker Template
+		//TODO: потокобезопасность в MainWindowData
+		//SOLVE: при addAsync кидается Exception - нужно, чтобы Task просто умирал
+
+		/// <summary>
+		/// Добавляет запись асинхронно
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns>Может вернуть Task.Status = Faulted, если возникла ошибка</returns>
+		public async Task Add(INoteDisplayedData obj)
+		{
+			var note = adapter.ConvertToNote(obj) as CustomerNote;
+
+			var addTask = dataProvider.AddAsync(note);
+
+			await addTask.ContinueWith(t =>
+							{
+								Notify(OnSuccessfulAdditionMessage);
+								reserve.Add(note);
+								Save();
+							},
+							TaskContinuationOptions.OnlyOnRanToCompletion);
+
+			await addTask.ContinueWith(t =>
+				{
+					Notify(OnAdditionExceptionMessage);
+					throw t.Exception.InnerException;
+				},
+				TaskContinuationOptions.OnlyOnFaulted);
+
 		}
 	}
 }
