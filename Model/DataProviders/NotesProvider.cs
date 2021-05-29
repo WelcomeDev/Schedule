@@ -21,7 +21,7 @@ namespace Model.DataProviders
 
 		private NotesProvider()
 		{
-			jsonSerializer = new DataContractJsonSerializer(typeof(CustomerNote));
+			jsonSerializer = new DataContractJsonSerializer(typeof(List<CustomerNote>));
 
 			var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 

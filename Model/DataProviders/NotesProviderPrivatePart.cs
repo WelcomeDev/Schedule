@@ -40,12 +40,7 @@ namespace Model.DataProviders
 
 			lock (locker)
 			{
-				try
-				{
-					jsonSerializer.WriteObject(sf, notes);
-				}
-				catch
-				{ }
+				jsonSerializer.WriteObject(sf, notes);
 			}
 		}
 	}
