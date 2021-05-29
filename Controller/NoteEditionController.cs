@@ -12,6 +12,10 @@ namespace Controller
 		public NoteEditionController(Action<string> notifier) : base(notifier)
 		{ }
 
+		/// <summary>
+		/// Список записей по часам
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerable GetHours()
 		{
 			var hours = new List<string>(BL.Rules.ClosingHour - BL.Rules.OpeningHour);
@@ -36,7 +40,11 @@ namespace Controller
 			return timeItem.ToString();
 		}
 
-		public IEnumerable GetMinute()
+		/// <summary>
+		/// Список записей по минутам
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable GetMinutes()
 		{
 			var minutes = new List<string>(MaxMinute / MinuteStep);
 
@@ -48,7 +56,12 @@ namespace Controller
 			return minutes;
 		}
 
-		public DateTime DateToCorrentFormat(DateTime time)
+		/// <summary>
+		/// Инициализирует корректно время
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		public DateTime TimeToCorrentFormat(DateTime time)
 		{
 			if (time.Hour < BL.Rules.OpeningHour)
 			{

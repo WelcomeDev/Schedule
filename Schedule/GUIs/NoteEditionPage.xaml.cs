@@ -32,7 +32,7 @@ namespace Schedule.GUIs
 			ctrl = new NoteEditionController(null);
 
 			hourCB.ItemsSource = ctrl.GetHours();
-			minuteCB.ItemsSource = ctrl.GetMinute();
+			minuteCB.ItemsSource = ctrl.GetMinutes();
 		}
 
 		public NoteEditionPage(INoteDisplayedData noteDisplayedData) : this()
@@ -43,7 +43,7 @@ namespace Schedule.GUIs
 			this.noteDisplayedData = noteDisplayedData;
 			DataContext = noteDisplayedData;
 
-			noteDisplayedData.Date = ctrl.DateToCorrentFormat(noteDisplayedData.Date);
+			noteDisplayedData.Date = ctrl.TimeToCorrentFormat(noteDisplayedData.Date);
 			hourCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Hour);
 			minuteCB.SelectedItem = ctrl.InitTime(noteDisplayedData.Date.Minute);
 		}

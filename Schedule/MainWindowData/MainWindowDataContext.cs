@@ -15,14 +15,28 @@ namespace Schedule
 	/// </summary>
 	public partial class MainWindow
 	{
-		private class MainWindowData
+		private class MainWindowData : INotifyPropertyChanged
 		{
 			private readonly List<NoteItem> allViewItems;
+			private string datesRange;
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
 			public ObservableCollection<NoteItem> DisplayedData { get; } = new ObservableCollection<NoteItem>();
 
 			public MainWindowData()
 			{
 				allViewItems = new List<NoteItem>();
+			}
+
+			public string DatesRange
+			{
+				get => datesRange;
+				private set
+				{
+					datesRange = value;
+					NotifyPropertyChanged("DatesRange");
+				}
 			}
 
 			public void InitSource(IEnumerable<INoteDisplayedData> result)
@@ -66,6 +80,23 @@ namespace Schedule
 				{
 					DisplayedData.Add(item);
 				}
+			}
+
+			private void NotifyPropertyChanged(string propName)
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+			}
+
+			private const string DateFormat = "dd MMMM";
+
+			internal void SetDate(DateTime first)
+			{
+				DatesRange = first.ToString(DateFormat);
+			}
+
+			internal void SetDates(DateTime first, DateTime last)
+			{
+				DatesRange = first.ToString(DateFormat) + "-" + last.ToString(DateFormat);
 			}
 		}
 	}

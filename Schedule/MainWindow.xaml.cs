@@ -1,6 +1,7 @@
 ﻿using Controller;
 using Controller.DataApis;
 using Schedule.GUIs;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Schedule
 			mainWinData = new MainWindowData();
 			DataContext = mainWinData;
 
+			mainWinData.SetDate(DateTime.Today);
 			//ассинхронное получение данных и продолжение в главном потоке
 			ctrl.GetDisplayedDataAsync()
 				.ContinueWith(t => mainWinData.InitSource(t.Result),
@@ -101,12 +103,14 @@ namespace Schedule
 
 			if (first.Equals(last))
 			{
+				mainWinData.SetDate(first);
 				ctrl.GetDisplayedDataAsync(first)
 					.ContinueWith(t => mainWinData.DisplayDates(t.Result),
 								uiContext);
 			}
 			else
 			{
+				mainWinData.SetDates(first, last);
 				ctrl.GetDisplayedDataAsync(first, last)
 					.ContinueWith(t => mainWinData.DisplayDates(t.Result),
 								uiContext);

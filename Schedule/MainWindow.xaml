@@ -19,7 +19,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
+
         <Border Grid.Column="0"
                 Style="{StaticResource RightUnderlinedOuterBorder}">
             <Grid>
@@ -31,7 +31,7 @@
 
                 <TextBox Style="{StaticResource ReadOnlyUnderlinedTextBox}"
                          TextAlignment="Center"
-                         Text="17.27.2741-98.26.4647"/>
+                         Text="{Binding DatesRange, Mode=OneWay}"/>
 
                 <ListView Grid.Row="1"
                           x:Name="notesListView"
@@ -61,7 +61,7 @@
                     Click="AddNewNoteButton_Click">
                 <Image Source="pack://application:,,,/Resources/Icons/add_icon.png"/>
             </Button>
-            
+
             <Calendar RenderTransformOrigin="0.75 0"
                       SelectionMode="MultipleRange"
                       SelectedDatesChanged="Calendar_SelectedDatesChanged">
@@ -69,10 +69,10 @@
                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                 </Calendar.RenderTransform>
             </Calendar>
-            
+
         </DockPanel>
-        
-        
+
+
 
     </Grid>
 </Window>

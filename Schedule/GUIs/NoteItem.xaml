@@ -65,7 +65,7 @@
                 <TextBox Grid.Column="1"
                          Grid.Row="1"
                          Style="{StaticResource ReadOnlyDataDislpay}"
-                         Text="{Binding Date, Mode=OneWay, StringFormat='g'}"/>
+                         Text="{Binding Date, Mode=OneWay, StringFormat='dddd, dd MMMM HH:mm'}"/>
 
                 <TextBox Grid.Row="2"
                          Style="{StaticResource ReadOnlyUnderlinedTextBox}"
