@@ -107,8 +107,8 @@ namespace Schedule.GUIs
 			var setDate = CreateDateFrom(currentDate);
 
 			int.TryParse(minuteCB.SelectedItem as string, out var minute);
-			setDate = setDate.AddHours(-currentDate.Minute);  //сбрасываем в 0
-			setDate = setDate.AddHours(minute);   //прибавляем выбранные
+			setDate = setDate.AddMinutes(-currentDate.Minute);  //сбрасываем в 0
+			setDate = setDate.AddMinutes(minute);   //прибавляем выбранные
 
 			noteDisplayedData.Date = setDate;
 		}

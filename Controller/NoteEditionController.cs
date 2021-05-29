@@ -55,7 +55,7 @@ namespace Controller
 				time = time.AddHours(-time.Hour);
 				time = time.AddHours(BL.Rules.OpeningHour);
 			}
-			else if (time.Hour > BL.Rules.ClosingHour)
+			else if (time.Hour >= BL.Rules.ClosingHour)
 			{
 				time = time.AddHours(-time.Hour);
 				time = time.AddHours(BL.Rules.ClosingHour - 1);
