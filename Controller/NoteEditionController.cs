@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Controller
 {
@@ -6,5 +7,15 @@ namespace Controller
 	{
 		public NoteEditionController(Action<string> notifier) : base(notifier)
 		{ }
+
+		public IEnumerable GetHours()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable GetMinute()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

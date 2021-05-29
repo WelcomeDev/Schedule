@@ -30,6 +30,9 @@ namespace Schedule.GUIs
 			InitializeComponent();
 
 			ctrl = new NoteEditionController(null);
+
+			hourCB.ItemsSource = ctrl.GetHours();
+			minuteCB.ItemsSource = ctrl.GetMinute();
 		}
 
 		public NoteEditionPage(INoteDisplayedData noteDisplayedData) : this()
@@ -65,16 +68,6 @@ namespace Schedule.GUIs
 		{
 			ItemRemoved?.Invoke(noteDisplayedData);
 			EndOfInput?.Invoke();
-		}
-
-		private void HourCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-
-		}
-
-		private void MinuteCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-
 		}
 
 		private void ValidationError_Invoke(object sender, ValidationErrorEventArgs e)

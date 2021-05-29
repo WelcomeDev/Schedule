@@ -71,12 +71,12 @@
                 <StackPanel Grid.Row="3"
                             Orientation="Horizontal">
                     <ComboBox x:Name="hourCB" Width="40"
-                              SelectionChanged="HourCB_SelectionChanged"/>
+                              SelectedItem="{Binding Date.Hour, Mode=TwoWay}"/>
                     <TextBox Style="{StaticResource InButtonTB}"
                              Text=":"
                              BorderBrush="Transparent"/>
                     <ComboBox Width="40" x:Name="minuteCB"
-                              SelectionChanged="MinuteCB_SelectionChanged"/>
+                              SelectedItem="{Binding Date.Minute, Mode=TwoWay}"/>
                 </StackPanel>
 
             </Grid>
