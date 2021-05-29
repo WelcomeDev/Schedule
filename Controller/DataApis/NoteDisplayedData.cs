@@ -1,10 +1,11 @@
 ﻿using Model;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Controller.DataApis
 {
-	public class NoteDisplayedData : INoteDisplayedData, INotifyPropertyChanged
+	public class NoteDisplayedData : INoteDisplayedData, IEquatable<NoteDisplayedData>
 	{
 		private readonly INote note;
 
@@ -53,6 +54,29 @@ namespace Controller.DataApis
 		public override string ToString()
 		{
 			return note.ToString();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is INoteDisplayedData displayedData)
+				return Equals(displayedData);
+
+			return false;
+		}
+
+		public bool Equals([AllowNull] INoteDisplayedData other)
+		{
+			if (other is null)
+				return false;
+
+			return Name.Equals(other.Name) &&
+				Phone.Equals(other.Phone) &&
+				Date.Equals(other.Date);
+		}
+
+		public bool Equals([AllowNull] NoteDisplayedData other)
+		{
+			return Equals(other as INoteDisplayedData);
 		}
 	}
 }
