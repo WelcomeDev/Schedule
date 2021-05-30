@@ -20,8 +20,11 @@
     <SolidColorBrush x:Key="DangerousBrush" Color="#e63946"/>
     <SolidColorBrush x:Key="OnActiveDangerousBrush" Color="#BF2430"/>
 
-
+      
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="White"/>
+
+    <SolidColorBrush x:Key="SecondBackgroundBrush" Color="#FFAD73" Opacity="0.9"/>
+    <SolidColorBrush x:Key="SecondBorderBrush" Color="#A64500"/>
 
     <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#248F40"/>
     <SolidColorBrush x:Key="MainFontBrush" Color="#043A6B"/>

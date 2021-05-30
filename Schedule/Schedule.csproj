@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="Resources\Icons\add_icon.png" />
     <None Remove="Resources\Icons\app_icon.png" />
+    <None Remove="Resources\Icons\background_img.png" />
     <None Remove="Resources\Icons\remove_icon.png" />
     <None Remove="Resources\Icons\save_icon.png" />
   </ItemGroup>
@@ -21,6 +22,7 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\add_icon.png" />
     <Resource Include="Resources\Icons\app_icon.png" />
+    <Resource Include="Resources\Icons\background_img.png" />
     <Resource Include="Resources\Icons\remove_icon.png" />
     <Resource Include="Resources\Icons\save_icon.png" />
   </ItemGroup>
