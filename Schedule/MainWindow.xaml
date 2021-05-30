@@ -10,18 +10,23 @@
         MinHeight="600" MinWidth="1000"
         Icon="pack://application:,,,/Resources/Icons/app_icon.png"
         Closing="Window_Closing">
-    <Grid Background="{StaticResource MainBackgroundBrush}"
+    <Grid
           x:Name="mainGrid"
           Focusable="True"
           MouseDown="MainGrid_MouseDown">
+        <Grid.Background>
+            <ImageBrush ImageSource="pack://application:,,,/Resources/Icons/background_img.png" 
+                        Opacity="0.7"/>
+        </Grid.Background>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0"
+                MinWidth="300"
                 Style="{StaticResource RightUnderlinedOuterBorder}">
             <Grid>
 
@@ -35,6 +40,7 @@
                          Text="{Binding DatesRange, Mode=OneWay}"/>
 
                 <ListView Grid.Row="1"
+                          Background="Transparent"
                           x:Name="notesListView"
                           ItemsSource="{Binding DisplayedData}"
                           SelectionChanged="NotesListView_ItemSelected"
@@ -51,27 +57,30 @@
                    NavigationUIVisibility="Hidden"/>
         </Border>
 
-        <DockPanel Grid.Column="1"
+        <Grid Grid.Column="1"
                   HorizontalAlignment="Center">
 
-            <Button DockPanel.Dock="Right"
-                    x:Name="AddNewNoteButton"
-                    Margin="50,0,0,0"
+            <Button x:Name="AddNewNoteButton"
                     VerticalAlignment="Top"
                     Style="{StaticResource AddRoundButton}"
                     Click="AddNewNoteButton_Click">
+                <Button.RenderTransform>
+                    <TranslateTransform  X="375" Y="125"/>
+                </Button.RenderTransform>
                 <Image Source="pack://application:,,,/Resources/Icons/add_icon.png"/>
             </Button>
 
-            <Calendar RenderTransformOrigin="0.75 0"
+            <Calendar RenderTransformOrigin="0.35 -0.05"
                       SelectionMode="MultipleRange"
+                      Background="{StaticResource SecondBackgroundBrush}"
+                      BorderBrush="{StaticResource SecondBorderBrush}"
                       SelectedDatesChanged="Calendar_SelectedDatesChanged">
                 <Calendar.RenderTransform>
-                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    <ScaleTransform ScaleX="3" ScaleY="3"/>
                 </Calendar.RenderTransform>
             </Calendar>
 
-        </DockPanel>
+        </Grid>
 
 
 
